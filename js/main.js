@@ -29,6 +29,8 @@ let thresholds = {
   'pct25_earn_wne_p10': null
 }
 
+const transitionTime = 500;
+
 Promise.all([
   d3.csv('data/Data for data viz.csv'),
 ]).then(function(data) {
@@ -68,6 +70,7 @@ Promise.all([
     })
 
     circles.filter(d => d.sector.includes("4-year"))
+      .transition().duration(transitionTime)
       .attr("cx", (d, i) => {
         return 550 + (i % 100) * 5;
       })
@@ -76,6 +79,7 @@ Promise.all([
       })
 
     circles.filter(d => d.sector.includes("2-year"))
+      .transition().duration(transitionTime)
       .attr("cx", (d, i) => {
         return (i % 100) * 5;
       })
