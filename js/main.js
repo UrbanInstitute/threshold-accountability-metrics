@@ -22,6 +22,13 @@ let width = widthChart - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
 
+let thresholds = {
+  'completion_rate_150': null,
+  'share_outstanding_ug_5': null,
+  'cdr3_wgtd': null,
+  'pct25_earn_wne_p10': null
+}
+
 Promise.all([
   d3.csv('data/Data for data viz.csv'),
 ]).then(function(data) {
@@ -37,6 +44,47 @@ Promise.all([
     })
   })
 
+  const svg = d3.select("#chart").append("svg")
+    .attr("width", 1200)
+    .attr("height", 600);
+
+  function updatePositions() {
+    const circles = svg.selectAll("circle")
+      .data(schools);
+
+    circles.enter().append("circle")
+      .attr("class", "school")
+      .attr("fill", "lightgray")
+      .attr("r", 3)
+
+    circles.attr("class", "school")
+      .attr("fill", "lightgray")
+      .attr("r", 3)
+
+    circles.exit().remove();
+
+    circles.each(d => {
+      d.y = metrics.reduce((a,b) => +(d[b] >= thresholds[b]) + a, 0)
+    })
+
+    circles.filter(d => d.sector.includes("4-year"))
+      .attr("cx", (d, i) => {
+        return 550 + (i % 100) * 5;
+      })
+      .attr("cy", (d, i) => {
+        return (d.y - 1) * 150 + Math.floor(i / 100) * 5;
+      })
+
+    circles.filter(d => d.sector.includes("2-year"))
+      .attr("cx", (d, i) => {
+        return (i % 100) * 5;
+      })
+      .attr("cy", (d, i) => {
+        return (d.y - 1) * 150 + Math.floor(i / 100) * 5;
+      })
+
+  }
+
   const sliders = d3.select("#sliders").selectAll("div")
     .data(metrics)
     .join("div")
@@ -48,13 +96,15 @@ Promise.all([
     .data(d => {
       let obj = {};
       [obj.min, obj.max] = d3.extent(schools, s => s[d]);
+      thresholds[d] = obj.min; // INITIALIZE THRESHOLDS
       obj.slider = d3.sliderHorizontal()
         .min(obj.min)
         .max(obj.max)
         .step((obj.max-obj.min)/steps)
         .width(300)
-        .on("onchange", (val) => {
-          console.log(val)
+        .on("end", (val) => {
+          thresholds[d] = val;
+          updatePositions();
         });
       return [obj]
     })
