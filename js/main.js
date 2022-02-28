@@ -56,11 +56,11 @@ Promise.all([
 
     circles.enter().append("circle")
       .attr("class", "school")
-      .attr("fill", "lightgray")
+      .attr("fill", d => d.sector.includes('Public') ? "#1696d2" : "#fdbf11")
       .attr("r", 3)
 
     circles.attr("class", "school")
-      .attr("fill", "lightgray")
+      .attr("fill", d => d.sector.includes('Public') ? "#1696d2" : "#fdbf11")
       .attr("r", 3)
 
     circles.exit().remove();
@@ -124,5 +124,7 @@ Promise.all([
       // })
       .each((d,i,j) => {
         d3.select(j[0]).call(d.slider)
-      })
+      });
+
+  updatePositions();
 })
