@@ -39,6 +39,7 @@ Promise.all([
   console.log(schools);
 
   const metrics = ['completion_rate_150', 'share_outstanding_ug_5', 'cdr3_wgtd', 'pct25_earn_wne_p10'];
+  const ySpace = metrics.length + 1;
 
   schools.forEach(s => {
     metrics.forEach(m => {
@@ -72,19 +73,19 @@ Promise.all([
     circles.filter(d => d.sector.includes("4-year"))
       .transition().duration(transitionTime)
       .attr("cx", (d, i) => {
-        return 550 + (i % 100) * 5;
+        return 550 + (i % 100) * ySpace;
       })
       .attr("cy", (d, i) => {
-        return (d.y - 1) * 150 + Math.floor(i / 100) * 5;
+        return d.y * 100 + Math.floor(i / 100) * ySpace + 6;
       })
 
     circles.filter(d => d.sector.includes("2-year"))
       .transition().duration(transitionTime)
       .attr("cx", (d, i) => {
-        return (i % 100) * 5;
+        return (i % 100) * ySpace;
       })
       .attr("cy", (d, i) => {
-        return (d.y - 1) * 150 + Math.floor(i / 100) * 5;
+        return d.y * 100 + Math.floor(i / 100) * ySpace + 6;
       })
 
   }
