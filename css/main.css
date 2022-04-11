@@ -9,7 +9,7 @@
   width: 74%;
 }
 
-.pass-name, .institution-div, .institution-type-name, .institution-type-bar {
+.pass-name, .institution-div, .institution-level-name, .institution-level-bar {
   display: inline-block;
 }
 
@@ -17,7 +17,7 @@
   vertical-align: top;
 }
 
-.institution-type-name {
+.institution-level-name {
   vertical-align: top;
   width: 150px;
 }

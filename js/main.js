@@ -64,7 +64,7 @@ Promise.all([
 
   const metrics = ['completion_rate_150', 'share_outstanding_ug_5', 'cdr3_wgtd', 'pct25_earn_wne_p10'];
   const schoolTypes = ['Nonprofit', 'Public', 'For-profit'];
-  const institutionTypes = ['4-year', '2-year', 'Less-than-2-year'];
+  const levels = ['4-year', '2-year', 'less-than-2-year'];
   let totals = {};
   const ySpace = metrics.length + 1;
 
@@ -103,10 +103,10 @@ Promise.all([
 
     let institutionsDiv = passesDiv.selectAll(".institution-div")
       .data(function(d){
-        let institutions = institutionTypes.map(function(it){
+        let institutions = levels.map(function(it){
           let obj = {};
           obj.pass = d;
-          obj.type = it;
+          obj.level = it;
           return obj;
         })
         return [institutions]
@@ -114,33 +114,44 @@ Promise.all([
       .join("div")
         .attr("class", "institution-div");
 
-    let institutionTypeDiv = institutionsDiv.selectAll(".institution-type")
+    let institutionLevels = institutionsDiv.selectAll(".institution-level")
       .data(function(d){
         return d;
       })
       .join("div")
-        .attr("class", "institution-type")
+        .attr("class", "institution-level")
 
-    institutionTypeDiv.selectAll(".institution-type-name")
+    institutionLevels.selectAll(".institution-level-name")
       .data(function(d){
+        console.log(d)
         return [d];
       })
       .join("div")
-        .attr("class", "institution-type-name")
+        .attr("class", "institution-level-name")
         .html(function(d){
-          return d.type;
+          return d.level;
         })
 
-    let institutionTypeBars = institutionTypeDiv.selectAll(".institution-type-bars")
+    let institutionLevelBars = institutionLevels.selectAll(".institution-level-bars")
       .data(function(d){
         return [d];
       })
       .join("div")
-        .attr("class", "institution-type-bar");
+        .attr("class", "institution-level-bar");
 
-    let svg = institutionTypeBars.selectAll("svg")
+    let svg = institutionLevelBars.selectAll("svg")
       .data(function(d){
-        return schoolTypes;
+        return schoolTypes.map(function(st){
+          let obj = {}
+          obj.pass = d.pass;
+          obj.level = d.level;
+          obj.type = st;
+          let theseSchools = schools.filter(function(s){
+            return ((s.pass === d.pass) && (s.sector.includes(d.level)) && (s.sector.includes(st)))
+          })
+          obj.n = theseSchools.length;
+          return obj;
+        })
       })
       .join("svg")
         .attr("width", svgWidth)
@@ -158,8 +169,8 @@ Promise.all([
         .attr("y", 0)
         .attr("width", function(d){
           console.log(d)
-          // return xScale(d.value);
-          return svgWidth;
+          return xScale(d.n/totals[d.type] * 100);
+          // return svgWidth;
         })
 
   }
