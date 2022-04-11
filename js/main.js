@@ -74,7 +74,7 @@ Promise.all([
     })
   })
 
-  function updatePositions() {
+  function initRects() {
 
     schools.forEach(function(d){
       d.pass = metrics.reduce((a,b) => +(d[b] >= thresholds[b]) + a, 0);
@@ -139,7 +139,7 @@ Promise.all([
       .join("div")
         .attr("class", "institution-level-bar");
 
-    let svg = institutionLevelBars.selectAll("svg")
+    svg = institutionLevelBars.selectAll("svg")
       .data(function(d){
         return schoolTypes.map(function(st){
           let obj = {}
@@ -168,11 +168,32 @@ Promise.all([
         .attr("x", xScale(0))
         .attr("y", 0)
         .attr("width", function(d){
-          console.log(d)
           return xScale(d.n/totals[d.type] * 100);
-          // return svgWidth;
         })
 
+  }
+
+  function updateRects() {
+    schools.forEach(function(d){
+      d.pass = metrics.reduce((a,b) => +(d[b] >= thresholds[b]) + a, 0);
+    })
+
+    svg.selectAll("rect")
+      .data(function(d){
+        console.log(d)
+        return [d];
+      })
+      .join("rect")
+        .attr("fill", "steelblue")
+        .attr("height", svgHeight)
+        .attr("x", xScale(0))
+        .attr("y", 0)
+        .attr("width", function(d){
+          let theseSchools = schools.filter(function(s){
+            return ((s.pass === d.pass) && (s.sector.includes(d.level)) && (s.sector.includes(d.type)))
+          })
+          return xScale(theseSchools.length/totals[d.type] * 100);
+        })
   }
 
   const sliders = d3.select("#sliders").selectAll("div")
@@ -197,7 +218,7 @@ Promise.all([
         .width(300)
         .on("end", function(val) {
           thresholds[d] = val;
-          updatePositions();
+          updateRects();
         });
       return [obj]
     })
@@ -226,5 +247,5 @@ Promise.all([
         console.log(d);
       })
 
-  updatePositions();
+  initRects();
 })
