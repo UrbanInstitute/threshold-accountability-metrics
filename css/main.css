@@ -9,10 +9,20 @@
   width: 74%;
 }
 
+.pass-name, .institution-div, .institution-type-name, .institution-type-bar {
+  display: inline-block;
+}
+
 .pass-name {
   vertical-align: top;
 }
 
-.pass-name, .institution-div {
-  display: inline-block;
+.institution-type-name {
+  vertical-align: top;
+  width: 150px;
+}
+
+.svg-bar {
+  display: block;
+  margin-bottom: 9px;
 }

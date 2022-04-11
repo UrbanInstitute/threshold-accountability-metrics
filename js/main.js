@@ -10,7 +10,7 @@ let offsetWidth, widthChart;
  //   widthChart = document.getElementById("chart").offsetWidth + offsetWidth;
  // }
 
-let margin, svg, g, gs, xScale, yScale, tickValues, totalHeight, yRange, stickyHeight;
+let margin, svg, g, gs, yScale, tickValues, totalHeight, yRange, stickyHeight;
 
 if (isMobile){
   margin = {top: 20, right: offsetWidth, bottom: 20, left: 100};
@@ -21,6 +21,12 @@ if (isMobile){
 let width = widthChart - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
+let svgWidth = 200,
+    svgHeight = 20;
+
+let xScale = d3.scaleLinear()
+    .domain([0, 100])
+    .range([0, svgWidth])
 
 let thresholds = {
   'completion_rate_150': null,
@@ -59,6 +65,7 @@ Promise.all([
   const metrics = ['completion_rate_150', 'share_outstanding_ug_5', 'cdr3_wgtd', 'pct25_earn_wne_p10'];
   const schoolTypes = ['Nonprofit', 'Public', 'For-profit'];
   const institutionTypes = ['4-year', '2-year', 'Less-than-2-year'];
+  let totals = {};
   const ySpace = metrics.length + 1;
 
   schools.forEach(s => {
@@ -73,6 +80,11 @@ Promise.all([
       d.pass = metrics.reduce((a,b) => +(d[b] >= thresholds[b]) + a, 0);
     })
     let passes = d3.range(0, metrics.length + 1);
+    schoolTypes.forEach(function(st){
+      totals[st] = schools.filter(function(s){
+        return s["sector"].includes(st);
+      }).length
+    })
 
     let passesDiv = d3.select("#right-col").selectAll(".pass-div")
       .data(passes)
@@ -102,15 +114,52 @@ Promise.all([
       .join("div")
         .attr("class", "institution-div");
 
-    institutionsDiv.selectAll(".institution-type")
+    let institutionTypeDiv = institutionsDiv.selectAll(".institution-type")
       .data(function(d){
         return d;
       })
       .join("div")
         .attr("class", "institution-type")
+
+    institutionTypeDiv.selectAll(".institution-type-name")
+      .data(function(d){
+        return [d];
+      })
+      .join("div")
+        .attr("class", "institution-type-name")
         .html(function(d){
-          console.log(d)
           return d.type;
+        })
+
+    let institutionTypeBars = institutionTypeDiv.selectAll(".institution-type-bars")
+      .data(function(d){
+        return [d];
+      })
+      .join("div")
+        .attr("class", "institution-type-bar");
+
+    let svg = institutionTypeBars.selectAll("svg")
+      .data(function(d){
+        return schoolTypes;
+      })
+      .join("svg")
+        .attr("width", svgWidth)
+        .attr("height", svgHeight)
+        .attr("class", "svg-bar")
+
+    svg.selectAll("rect")
+      .data(function(d){
+        return [d];
+      })
+      .join("rect")
+        .attr("fill", "steelblue")
+        .attr("height", svgHeight)
+        .attr("x", xScale(0))
+        .attr("y", 0)
+        .attr("width", function(d){
+          console.log(d)
+          // return xScale(d.value);
+          return svgWidth;
         })
 
   }
