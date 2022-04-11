@@ -90,7 +90,15 @@ Promise.all([
         })
 
     let institutionsDiv = passesDiv.selectAll(".institution-div")
-      .data([institutionTypes])
+      .data(function(d){
+        let institutions = institutionTypes.map(function(it){
+          let obj = {};
+          obj.pass = d;
+          obj.type = it;
+          return obj;
+        })
+        return [institutions]
+      })
       .join("div")
         .attr("class", "institution-div");
 
@@ -101,7 +109,8 @@ Promise.all([
       .join("div")
         .attr("class", "institution-type")
         .html(function(d){
-          return d;
+          console.log(d)
+          return d.type;
         })
 
   }
