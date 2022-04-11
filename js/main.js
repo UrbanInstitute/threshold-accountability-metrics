@@ -39,6 +39,7 @@ Promise.all([
   console.log(schools);
 
   const metrics = ['completion_rate_150', 'share_outstanding_ug_5', 'cdr3_wgtd', 'pct25_earn_wne_p10'];
+  const schoolTypes = ['Nonprofit', 'Public', 'For-profit'];
   const ySpace = metrics.length + 1;
 
   schools.forEach(s => {
@@ -93,21 +94,24 @@ Promise.all([
   const sliders = d3.select("#sliders").selectAll("div")
     .data(metrics)
     .join("div")
-      .html(d => `<span>${d}</span>`)
+      .attr("class", "slider")
+      .html(d => `<div class="slider-name"><input type="checkbox" id="${d}" value="first_checkbox"><span>${d}</span><span class="info">i</span></div>`)
 
   const steps = 100.0;
 
   sliders.selectAll("svg")
-    .data(d => {
+    .data(function(d) {
       let obj = {};
-      [obj.min, obj.max] = d3.extent(schools, s => s[d]);
+      [obj.min, obj.max] = d3.extent(schools, function(s){
+        return s[d];
+      });
       thresholds[d] = obj.min; // INITIALIZE THRESHOLDS
       obj.slider = d3.sliderHorizontal()
         .min(obj.min)
         .max(obj.max)
         .step((obj.max-obj.min)/steps)
         .width(300)
-        .on("end", (val) => {
+        .on("end", function(val) {
           thresholds[d] = val;
           updatePositions();
         });
@@ -123,9 +127,20 @@ Promise.all([
       //   console.log(d)
       //   return 1
       // })
-      .each((d,i,j) => {
-        d3.select(j[0]).call(d.slider)
+      .each(function(d,i,j) {
+        d3.select(j[0]).call(d.slider);
       });
+
+  const filters = d3.select("#filters-buttons").selectAll("span")
+    .data(schoolTypes)
+    .join("span")
+      .attr("class", "filter")
+      .html(function(d) {
+        return `${d}`;
+      })
+      .on("click", function(event, d){
+        console.log(d);
+      })
 
   updatePositions();
 })

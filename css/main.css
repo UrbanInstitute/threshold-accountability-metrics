@@ -1,0 +1,9 @@
+#left-col {
+  display: block;
+  width: 30%;
+}
+
+#right-col {
+  display: block;
+  width: 70%;
+}
