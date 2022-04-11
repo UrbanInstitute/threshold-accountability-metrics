@@ -1,0 +1,28 @@
+#left-col {
+  display: inline-block;
+  width: 25%;
+}
+
+#right-col {
+  display: inline-block;
+  vertical-align: top;
+  width: 74%;
+}
+
+.pass-name, .institution-div, .institution-level-name, .institution-level-bar {
+  display: inline-block;
+}
+
+.pass-name {
+  vertical-align: top;
+}
+
+.institution-level-name {
+  vertical-align: top;
+  width: 150px;
+}
+
+.svg-bar {
+  display: block;
+  margin-bottom: 9px;
+}
