@@ -32,7 +32,7 @@ let thresholds = {
 const transitionTime = 500;
 
 Promise.all([
-  d3.csv('data/Data for data viz.csv'),
+  d3.csv('data/Data for data viz v2.csv'),
 ]).then(function(data) {
   var schools = data[0];
 
