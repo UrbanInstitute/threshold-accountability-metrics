@@ -2,13 +2,13 @@ const isMobile = $(window).width() < 770;
 
 let offsetWidth, widthChart;
 
- if (isMobile){
-   offsetWidth = 16 + 22;
-   widthChart = document.getElementById("chart").offsetWidth;
- } else {
-   offsetWidth = 280;
-   widthChart = document.getElementById("chart").offsetWidth + offsetWidth;
- }
+ // if (isMobile){
+ //   offsetWidth = 16 + 22;
+ //   widthChart = document.getElementById("chart").offsetWidth;
+ // } else {
+ //   offsetWidth = 280;
+ //   widthChart = document.getElementById("chart").offsetWidth + offsetWidth;
+ // }
 
 let margin, svg, g, gs, xScale, yScale, tickValues, totalHeight, yRange, stickyHeight;
 
@@ -31,6 +31,24 @@ let thresholds = {
 
 const transitionTime = 500;
 
+function getUniquesMenu(df, thisVariable) {
+
+  var thisList = df.map(function(o) {
+    return o[thisVariable]
+  })
+
+  // uniq() found here https://stackoverflow.com/questions/9229645/remove-duplicate-values-from-js-array
+  function uniq(a) {
+      return a.sort().filter(function(item, pos, ary) {
+          return !pos || item != ary[pos - 1];
+      });
+  }
+
+  var uniqueList = uniq(thisList);
+
+  return uniqueList;
+}
+
 Promise.all([
   d3.csv('data/Data for data viz v2.csv'),
 ]).then(function(data) {
@@ -40,6 +58,7 @@ Promise.all([
 
   const metrics = ['completion_rate_150', 'share_outstanding_ug_5', 'cdr3_wgtd', 'pct25_earn_wne_p10'];
   const schoolTypes = ['Nonprofit', 'Public', 'For-profit'];
+  const institutionTypes = ['4-year', '2-year', 'Less-than-2-year'];
   const ySpace = metrics.length + 1;
 
   schools.forEach(s => {
@@ -48,46 +67,42 @@ Promise.all([
     })
   })
 
-  const svg = d3.select("#chart").append("svg")
-    .attr("width", 1200)
-    .attr("height", 600);
-
   function updatePositions() {
-    const circles = svg.selectAll("circle")
-      .data(schools);
 
-    circles.enter().append("circle")
-      .attr("class", "school")
-      .attr("fill", d => d.sector.includes('Public') ? "#1696d2" : "#fdbf11")
-      .attr("r", 3)
-
-    circles.attr("class", "school")
-      .attr("fill", d => d.sector.includes('Public') ? "#1696d2" : "#fdbf11")
-      .attr("r", 3)
-
-    circles.exit().remove();
-
-    circles.each(d => {
-      d.y = metrics.reduce((a,b) => +(d[b] >= thresholds[b]) + a, 0)
+    schools.forEach(function(d){
+      d.pass = metrics.reduce((a,b) => +(d[b] >= thresholds[b]) + a, 0);
     })
+    let passes = d3.range(0, metrics.length + 1);
 
-    circles.filter(d => d.sector.includes("4-year"))
-      .transition().duration(transitionTime)
-      .attr("cx", (d, i) => {
-        return 550 + (i % 100) * ySpace;
-      })
-      .attr("cy", (d, i) => {
-        return d.y * 100 + Math.floor(i / 100) * ySpace + 6;
-      })
+    let passesDiv = d3.select("#right-col").selectAll(".pass-div")
+      .data(passes)
+      .join("div")
+        .attr("class", "pass-div")
 
-    circles.filter(d => d.sector.includes("2-year"))
-      .transition().duration(transitionTime)
-      .attr("cx", (d, i) => {
-        return (i % 100) * ySpace;
+    passesDiv.selectAll(".pass-name")
+      .data(function(d){
+        return [d];
       })
-      .attr("cy", (d, i) => {
-        return d.y * 100 + Math.floor(i / 100) * ySpace + 6;
+      .join("div")
+        .attr("class", "pass-name")
+        .html(function(d){
+          return "Pass " + d;
+        })
+
+    let institutionsDiv = passesDiv.selectAll(".institution-div")
+      .data([institutionTypes])
+      .join("div")
+        .attr("class", "institution-div");
+
+    institutionsDiv.selectAll(".institution-type")
+      .data(function(d){
+        return d;
       })
+      .join("div")
+        .attr("class", "institution-type")
+        .html(function(d){
+          return d;
+        })
 
   }
 

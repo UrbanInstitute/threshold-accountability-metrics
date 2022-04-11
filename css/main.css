@@ -1,9 +1,18 @@
 #left-col {
-  display: block;
-  width: 30%;
+  display: inline-block;
+  width: 25%;
 }
 
 #right-col {
-  display: block;
-  width: 70%;
+  display: inline-block;
+  vertical-align: top;
+  width: 74%;
+}
+
+.pass-name {
+  vertical-align: top;
+}
+
+.pass-name, .institution-div {
+  display: inline-block;
 }
