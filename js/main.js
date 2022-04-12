@@ -74,7 +74,7 @@ Promise.all([
     })
   })
 
-  function initRects() {
+  function updateRects() {
 
     schools.forEach(function(d){
       d.pass = metrics.reduce((a,b) => +(d[b] >= thresholds[b]) + a, 0);
@@ -88,20 +88,34 @@ Promise.all([
 
     let passesDiv = d3.select("#right-col").selectAll(".pass-div")
       .data(passes)
-      .join("div")
-        .attr("class", "pass-div")
 
-    passesDiv.selectAll(".pass-name")
+    passesDiv.attr("class", "pass-div");
+
+    passesDiv.enter().append("div")
+      .attr("class", "pass-div");
+
+    passesDiv.exit().remove();
+
+    let passesName = d3.selectAll(".pass-div").selectAll(".pass-name")
       .data(function(d){
         return [d];
       })
-      .join("div")
-        .attr("class", "pass-name")
-        .html(function(d){
-          return "Pass " + d;
-        })
 
-    let institutionsDiv = passesDiv.selectAll(".institution-div")
+    passesName.attr("class", "pass-name")
+      .html(function(d){
+        return "Pass " + d;
+      })
+
+    passesName.enter().append("div")
+      .attr("class", "pass-name")
+      .html(function(d){
+        return "Pass " + d;
+      });
+
+    passesName.exit().remove();
+
+
+    let institutionsDiv = d3.selectAll(".pass-div").selectAll(".institution-div")
       .data(function(d){
         let institutions = levels.map(function(it){
           let obj = {};
@@ -111,36 +125,60 @@ Promise.all([
         })
         return [institutions]
       })
-      .join("div")
-        .attr("class", "institution-div");
 
-    let institutionLevels = institutionsDiv.selectAll(".institution-level")
+    institutionsDiv.attr("class", "institution-div");
+
+    institutionsDiv.enter().append("div")
+      .attr("class", "institution-div");
+
+    institutionsDiv.exit().remove();
+
+    let institutionLevels = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level")
       .data(function(d){
         return d;
       })
-      .join("div")
-        .attr("class", "institution-level")
 
-    institutionLevels.selectAll(".institution-level-name")
+    institutionLevels.attr("class", "institution-level");
+
+    institutionLevels.enter().append("div")
+      .attr("class", "institution-level");
+
+    institutionLevels.exit().remove();
+
+    let levelName = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-name")
+      .data(function(d){
+        return [d];
+      });
+
+    levelName.attr("class", "institution-level-name")
+      .html(function(d){
+        return d.level;
+      });
+
+    levelName.enter().append("div")
+      .attr("class", "institution-level-name")
+      .html(function(d){
+        return d.level;
+      });
+
+    levelName.exit().remove();
+
+    let institutionLevelBars = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar")
       .data(function(d){
         console.log(d)
         return [d];
-      })
-      .join("div")
-        .attr("class", "institution-level-name")
-        .html(function(d){
-          return d.level;
-        })
+      });
 
-    let institutionLevelBars = institutionLevels.selectAll(".institution-level-bars")
-      .data(function(d){
-        return [d];
-      })
-      .join("div")
-        .attr("class", "institution-level-bar");
+    institutionLevelBars.attr("class", "institution-level-bar");
 
-    svg = institutionLevelBars.selectAll("svg")
+    institutionLevelBars.enter().append("div")
+      .attr("class", "institution-level-bar");
+
+    institutionLevelBars.exit().remove();
+
+    let svgRects = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar").selectAll("svg")
       .data(function(d){
+        console.log(d)
         return schoolTypes.map(function(st){
           let obj = {}
           obj.pass = d.pass;
@@ -153,47 +191,42 @@ Promise.all([
           return obj;
         })
       })
-      .join("svg")
-        .attr("width", svgWidth)
-        .attr("height", svgHeight)
-        .attr("class", "svg-bar")
 
-    svg.selectAll("rect")
+    svgRects.attr("width", svgWidth)
+      .attr("height", svgHeight)
+      .attr("class", "svg-bar")
+
+    svgRects.enter().append("svg")
+      .attr("width", svgWidth)
+      .attr("height", svgHeight)
+      .attr("class", "svg-bar")
+
+    svgRects.exit().remove();
+
+    let rects = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar").selectAll("svg").selectAll("rect")
       .data(function(d){
         return [d];
       })
-      .join("rect")
-        .attr("fill", "steelblue")
-        .attr("height", svgHeight)
-        .attr("x", xScale(0))
-        .attr("y", 0)
-        .attr("width", function(d){
-          return xScale(d.n/totals[d.type] * 100);
-        })
 
-  }
-
-  function updateRects() {
-    schools.forEach(function(d){
-      d.pass = metrics.reduce((a,b) => +(d[b] >= thresholds[b]) + a, 0);
-    })
-
-    svg.selectAll("rect")
-      .data(function(d){
-        console.log(d)
-        return [d];
+    rects.attr("fill", "steelblue")
+      .attr("height", svgHeight)
+      .attr("x", xScale(0))
+      .attr("y", 0)
+      .attr("width", function(d){
+        return xScale(d.n/totals[d.type] * 100);
       })
-      .join("rect")
-        .attr("fill", "steelblue")
-        .attr("height", svgHeight)
-        .attr("x", xScale(0))
-        .attr("y", 0)
-        .attr("width", function(d){
-          let theseSchools = schools.filter(function(s){
-            return ((s.pass === d.pass) && (s.sector.includes(d.level)) && (s.sector.includes(d.type)))
-          })
-          return xScale(theseSchools.length/totals[d.type] * 100);
-        })
+
+    rects.enter().append("rect")
+      .attr("fill", "steelblue")
+      .attr("height", svgHeight)
+      .attr("x", xScale(0))
+      .attr("y", 0)
+      .attr("width", function(d){
+        return xScale(d.n/totals[d.type] * 100);
+      })
+
+    rects.exit().remove();
+
   }
 
   const sliders = d3.select("#sliders").selectAll("div")
@@ -247,5 +280,5 @@ Promise.all([
         console.log(d);
       })
 
-  initRects();
+  updateRects();
 })
