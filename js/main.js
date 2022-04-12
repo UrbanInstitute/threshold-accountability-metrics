@@ -2,6 +2,10 @@ const isMobile = $(window).width() < 770;
 
 let offsetWidth, widthChart;
 
+let state = {
+  filters: []
+}
+
  // if (isMobile){
  //   offsetWidth = 16 + 22;
  //   widthChart = document.getElementById("chart").offsetWidth;
@@ -65,6 +69,9 @@ Promise.all([
   const metrics = ['completion_rate_150', 'share_outstanding_ug_5', 'cdr3_wgtd', 'pct25_earn_wne_p10'];
   const schoolTypes = ['Nonprofit', 'Public', 'For-profit'];
   const levels = ['4-year', '2-year', 'less-than-2-year'];
+
+  state.filters  = schoolTypes;
+
   let totals = {};
   const ySpace = metrics.length + 1;
 
@@ -165,7 +172,6 @@ Promise.all([
 
     let institutionLevelBars = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar")
       .data(function(d){
-        console.log(d)
         return [d];
       });
 
@@ -178,8 +184,7 @@ Promise.all([
 
     let svgRects = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar").selectAll("svg")
       .data(function(d){
-        console.log(d)
-        return schoolTypes.map(function(st){
+        return state.filters.map(function(st){
           let obj = {}
           obj.pass = d.pass;
           obj.level = d.level;
@@ -273,11 +278,21 @@ Promise.all([
     .data(schoolTypes)
     .join("span")
       .attr("class", "filter")
+      .classed("selected", true)
       .html(function(d) {
         return `${d}`;
       })
       .on("click", function(event, d){
-        console.log(d);
+        let thisSelected = d3.select(this).classed("selected");
+        if (thisSelected === true) {
+          state.filters = state.filters.filter(function(f){
+            return f !== d;
+          });
+        } else {
+          state.filters.push(d);
+        }
+        d3.select(this).classed("selected", !d3.select(this).classed("selected"));
+        updateRects()
       })
 
   updateRects();

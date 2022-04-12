@@ -26,3 +26,7 @@
   display: block;
   margin-bottom: 9px;
 }
+
+.selected {
+  text-decoration: underline;
+}
