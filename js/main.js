@@ -284,6 +284,12 @@ Promise.all([
         return state.metrics.indexOf(d) < 0;
       })
 
+  function updateSliders() {
+    sliders.classed("faded", function(d){
+      return state.metrics.indexOf(d) < 0;
+    });
+  }
+
   let sliderName = sliders.selectAll(".slider-name")
     .data(function(d){
       return [d];
@@ -309,9 +315,7 @@ Promise.all([
         });
       }
       updateRects();
-      sliders.classed("faded", function(d){
-          return state.metrics.indexOf(d) < 0;
-        })
+      updateSliders();
     })
 
   sliderName.append("span")
@@ -338,7 +342,7 @@ Promise.all([
         .max(obj.max)
         .step((obj.max-obj.min)/steps)
         .width(300)
-        .handle(d="M -10, 0 m 0, 0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0")
+        .handle("M -10, 0 m 0, 0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0")
         .on("end", function(val) {
           thresholds[d] = val;
           updateRects();
@@ -352,8 +356,6 @@ Promise.all([
       .each(function(d,i,j) {
         d3.select(j[0]).call(d.slider);
       });
-
-  updateSliders();
 
   // ADD FILTERS
 
@@ -378,5 +380,6 @@ Promise.all([
         updateRects()
       })
 
+  updateSliders();
   updateRects();
 })
