@@ -39,11 +39,9 @@
 }
 
 .button.selected {
-
   color: #FFFFFF;
   background: #000000;
 
-  border: 1px solid #9D9D9D;
   box-sizing: border-box;
   border-radius: 25px;
 }

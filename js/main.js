@@ -13,10 +13,23 @@ let state = {
   button: 'Students'
 }
 
-let labels = {
+let levelLabels = {
   '4-year': '4-year institutions',
   '2-year': '2-year institutions',
   'less-than-2-year': 'Less-than-2-year institutions'
+}
+
+let metricLabels = {
+  'completion_rate_150': 'Completion Rate',
+  'share_outstanding_ug_5': 'Successful Loan Repayment',
+  'cdr3_wgtd': 'Loan Default Rate',
+  'pct25_earn_wne_p10': 'Post-College Earnings'
+}
+
+let filterLabels = {
+  'Nonprofit': 'Private',
+  'Public': 'Public',
+  'For-profit': 'For profit'
 }
 
 let colors = {
@@ -182,13 +195,13 @@ Promise.all([
 
     levelName.attr("class", "institution-level-name")
       .html(function(d){
-        return labels[d.level];
+        return levelLabels[d.level];
       });
 
     levelName.enter().append("div")
       .attr("class", "institution-level-name")
       .html(function(d){
-        return labels[d.level];
+        return levelLabels[d.level];
       });
 
     levelName.exit().remove();
@@ -337,7 +350,7 @@ Promise.all([
   sliderName.append("span")
     .attr("class", "slider-name")
     .html(function(d){
-      return d;
+      return metricLabels[d];
     })
 
   sliderName.append("span")
@@ -382,7 +395,7 @@ Promise.all([
       .attr("class", "filter")
       .classed("selected", true)
       .html(function(d) {
-        return `${d}`;
+        return filterLabels[d];
       })
       .on("click", function(event, d){
         let thisSelected = d3.select(this).classed("selected");
