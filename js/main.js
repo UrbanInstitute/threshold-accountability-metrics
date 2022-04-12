@@ -280,6 +280,9 @@ Promise.all([
     .data(metrics)
     .join("div")
       .attr("class", "slider")
+      .classed("faded", function(d){
+        return state.metrics.indexOf(d) < 0;
+      })
 
   let sliderName = sliders.selectAll(".slider-name")
     .data(function(d){
@@ -297,9 +300,7 @@ Promise.all([
       return d
     })
     .on("click", function(event, d){
-      console.log(d)
       let thisChecked = d3.select(this).property("checked");
-      console.log(thisChecked)
       if (thisChecked === true){
         state.metrics.push(d);
       } else {
@@ -308,6 +309,9 @@ Promise.all([
         });
       }
       updateRects();
+      sliders.classed("faded", function(d){
+          return state.metrics.indexOf(d) < 0;
+        })
     })
 
   sliderName.append("span")
@@ -324,6 +328,7 @@ Promise.all([
   sliders.selectAll("svg")
     .data(function(d) {
       let obj = {};
+      obj.metric = d;
       [obj.min, obj.max] = d3.extent(schools, function(s){
         return s[d];
       });
@@ -346,6 +351,8 @@ Promise.all([
       .each(function(d,i,j) {
         d3.select(j[0]).call(d.slider);
       });
+
+  updateSliders();
 
   // ADD FILTERS
 
