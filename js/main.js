@@ -4,7 +4,8 @@ let offsetWidth, widthChart;
 
 let state = {
   filters: [],
-  metrics: ['cdr3_wgtd']
+  metrics: ['cdr3_wgtd'],
+  button: 'Students'
 }
 
  // if (isMobile){
@@ -70,6 +71,7 @@ Promise.all([
   const metrics = ['completion_rate_150', 'share_outstanding_ug_5', 'cdr3_wgtd', 'pct25_earn_wne_p10'];
   const schoolTypes = ['Nonprofit', 'Public', 'For-profit'];
   const levels = ['4-year', '2-year', 'less-than-2-year'];
+  const buttons = ['Students', 'Institutions'];
 
   state.filters  = schoolTypes;
 
@@ -80,6 +82,7 @@ Promise.all([
     metrics.forEach(m => {
       s[m] = +s[m]
     })
+    s['est_fte'] = +s['est_fte'];
   })
 
   function updateRects() {
@@ -89,9 +92,16 @@ Promise.all([
     })
     let passes = d3.range(0, state.metrics.length + 1);
     schoolTypes.forEach(function(st){
-      totals[st] = schools.filter(function(s){
+      let filteredSchools = schools.filter(function(s){
         return s["sector"].includes(st);
-      }).length
+      });
+      if (state.button === 'Students') {
+        totals[st] = filteredSchools.reduce(function(a,b){
+          return a + b['est_fte']
+        }, 0);
+      } else {
+        totals[st] = filteredSchools.length;
+      }
     })
 
     let passesDiv = d3.select("#right-col").selectAll(".pass-div")
@@ -193,7 +203,13 @@ Promise.all([
           let theseSchools = schools.filter(function(s){
             return ((s.pass === d.pass) && (s.sector.includes(d.level)) && (s.sector.includes(st)))
           })
-          obj.n = theseSchools.length;
+          if (state.button === 'Institutions') {
+            obj.n = theseSchools.length;
+          } else {
+            obj.n = theseSchools.reduce(function(a,b){
+              return a + b['est_fte']
+            }, 0)
+          }
           return obj;
         })
       })
@@ -235,6 +251,31 @@ Promise.all([
 
   }
 
+  // ADD BUTTONS
+
+  const buttonsSpan = d3.select("#buttons").selectAll("span")
+    .data(buttons)
+    .join("span")
+      .attr("class", "button")
+      .classed("selected", function(d){
+        return d === state.button;
+      })
+      .html(function(d){
+        return d;
+      })
+      .on("click", function(event, d){
+        if (d !== state.button){
+          state.button = d;
+          d3.select("#buttons").selectAll("span")
+            .classed("selected", function(d){
+              return d === state.button;
+            })
+          updateRects();
+        }
+      })
+
+  // ADD SLIDERS
+
   const sliders = d3.select("#sliders").selectAll("div")
     .data(metrics)
     .join("div")
@@ -269,19 +310,6 @@ Promise.all([
       updateRects();
     })
 
-    // .on("click", function(event, d){
-    //   let thisSelected = d3.select(this).classed("selected");
-    //   if (thisSelected === true) {
-    //     state.filters = state.filters.filter(function(f){
-    //       return f !== d;
-    //     });
-    //   } else {
-    //     state.filters.push(d);
-    //   }
-    //   d3.select(this).classed("selected", !thisSelected);
-    //   updateRects()
-    // })
-
   sliderName.append("span")
     .html(function(d){
       return d;
@@ -315,15 +343,11 @@ Promise.all([
       .attr("viewBox", [-20, -20, 500, 60])
       .attr("width", 500)
       .attr("height", 60)
-      // .append("g")
-      // .attr("transform", "translate(0,0)")
-      // .style("opacity", d => {
-      //   console.log(d)
-      //   return 1
-      // })
       .each(function(d,i,j) {
         d3.select(j[0]).call(d.slider);
       });
+
+  // ADD FILTERS
 
   const filters = d3.select("#filters-buttons").selectAll("span")
     .data(schoolTypes)
