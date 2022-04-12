@@ -319,6 +319,7 @@ Promise.all([
     })
 
   sliderName.append("span")
+    .attr("class", "slider-name")
     .html(function(d){
       return d;
     })

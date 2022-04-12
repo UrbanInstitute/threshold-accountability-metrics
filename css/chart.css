@@ -1,3 +1,130 @@
+#interactive {
+  font-family: 'Lato';
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 162.5%;
+  color: #353535;
+  text-align: left;
+}
+
+#description {
+  color: #696969;
+
+  font-family: 'Lato';
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+
+  margin-bottom: 40px;
+}
+
+.button {
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.slider {
+  margin-bottom: 40px;
+}
+
+.slider-name {
+  color: #000000;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.slider-name input {
+  margin-right: 17px;
+}
+
+input[type=checkbox] {
+  position: relative;
+  cursor: pointer;
+}
+input[type=checkbox]:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0;
+  border: 2px solid #9D9D9D;
+  box-sizing: border-box;
+  background-color: white;
+}
+input[type=checkbox]:checked:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 0;
+  left: 0;
+  background: #000000;
+  border: 2px solid #000000;
+  box-sizing: border-box;
+}
+input[type=checkbox]:checked:after {
+  content: "";
+  display: block;
+  width: 4px;
+  height: 8px;
+  border: solid #FFFFFF;
+  border-width: 0 2px 2px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  position: absolute;
+  top: 2px;
+  left: 5px;
+}
+
+.slider svg {
+  margin-left: 27px;
+}
+
+#filters-title {
+  color: #000000;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+
+  margin-bottom: 15px;
+}
+
+.filter {
+  color: #9D9D9D;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  background: #FFFFFF;
+  border: 1px solid #D2D2D2;
+  box-sizing: border-box;
+  border-radius: 8px;
+
+  padding: 4px 8px;
+  margin-right: 8px;
+}
+
+.filter.selected {
+  color: #FFFFFF;
+  background: #000000;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 8px;
+}
+
 #left-col {
   display: inline-block;
   width: 25%;
