@@ -2,10 +2,27 @@ const isMobile = $(window).width() < 770;
 
 let offsetWidth, widthChart;
 
+const metrics = ['completion_rate_150', 'share_outstanding_ug_5', 'cdr3_wgtd', 'pct25_earn_wne_p10'];
+const schoolTypes = ['Nonprofit', 'Public', 'For-profit'];
+const levels = ['4-year', '2-year', 'less-than-2-year'];
+const buttons = ['Students', 'Institutions'];
+
 let state = {
   filters: [],
   metrics: ['cdr3_wgtd'],
   button: 'Students'
+}
+
+let labels = {
+  '4-year': '4-year institutions',
+  '2-year': '2-year institutions',
+  'less-than-2-year': 'Less-than-2-year institutions'
+}
+
+let colors = {
+  'Nonprofit': '#1696D2',
+  'Public': '#0A4C6A',
+  'For-profit': '#FDBF11'
 }
 
  // if (isMobile){
@@ -67,11 +84,6 @@ Promise.all([
   var schools = data[0];
 
   console.log(schools);
-
-  const metrics = ['completion_rate_150', 'share_outstanding_ug_5', 'cdr3_wgtd', 'pct25_earn_wne_p10'];
-  const schoolTypes = ['Nonprofit', 'Public', 'For-profit'];
-  const levels = ['4-year', '2-year', 'less-than-2-year'];
-  const buttons = ['Students', 'Institutions'];
 
   state.filters  = schoolTypes;
 
@@ -170,13 +182,13 @@ Promise.all([
 
     levelName.attr("class", "institution-level-name")
       .html(function(d){
-        return d.level;
+        return labels[d.level];
       });
 
     levelName.enter().append("div")
       .attr("class", "institution-level-name")
       .html(function(d){
-        return d.level;
+        return labels[d.level];
       });
 
     levelName.exit().remove();
@@ -230,7 +242,9 @@ Promise.all([
         return [d];
       })
 
-    rects.attr("fill", "steelblue")
+    rects.attr("fill", function(d){
+      return colors[d.type];
+    })
       .attr("height", svgHeight)
       .attr("x", xScale(0))
       .attr("y", 0)
@@ -239,7 +253,9 @@ Promise.all([
       })
 
     rects.enter().append("rect")
-      .attr("fill", "steelblue")
+      .attr("fill", function(d){
+        return colors[d.type];
+      })
       .attr("height", svgHeight)
       .attr("x", xScale(0))
       .attr("y", 0)
@@ -325,8 +341,7 @@ Promise.all([
     })
 
   sliderName.append("span")
-    .attr("class", "info")
-    .html("i")
+    .attr("class", "info");
 
   const steps = 100.0;
 
@@ -351,11 +366,12 @@ Promise.all([
       return [obj]
     })
     .join('svg')
-      .attr("viewBox", [-20, -20, 500, 60])
-      .attr("width", 500)
+      .attr("viewBox", [-20, -20, 340, 60])
+      .attr("width", 300)
       .attr("height", 60)
       .each(function(d,i,j) {
         d3.select(j[0]).call(d.slider);
+        d3.select(j[0]).select(".track-inset").remove();
       });
 
   // ADD FILTERS
