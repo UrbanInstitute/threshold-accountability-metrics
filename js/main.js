@@ -291,7 +291,7 @@ Promise.all([
         } else {
           state.filters.push(d);
         }
-        d3.select(this).classed("selected", !d3.select(this).classed("selected"));
+        d3.select(this).classed("selected", !thisSelected);
         updateRects()
       })
 
