@@ -3,7 +3,8 @@ const isMobile = $(window).width() < 770;
 let offsetWidth, widthChart;
 
 let state = {
-  filters: []
+  filters: [],
+  metrics: ['cdr3_wgtd']
 }
 
  // if (isMobile){
@@ -84,9 +85,9 @@ Promise.all([
   function updateRects() {
 
     schools.forEach(function(d){
-      d.pass = metrics.reduce((a,b) => +(d[b] >= thresholds[b]) + a, 0);
+      d.pass = state.metrics.reduce((a,b) => +(d[b] >= thresholds[b]) + a, 0);
     })
-    let passes = d3.range(0, metrics.length + 1);
+    let passes = d3.range(0, state.metrics.length + 1);
     schoolTypes.forEach(function(st){
       totals[st] = schools.filter(function(s){
         return s["sector"].includes(st);
@@ -238,7 +239,57 @@ Promise.all([
     .data(metrics)
     .join("div")
       .attr("class", "slider")
-      .html(d => `<div class="slider-name"><input type="checkbox" id="${d}" value="first_checkbox"><span>${d}</span><span class="info">i</span></div>`)
+
+  let sliderName = sliders.selectAll(".slider-name")
+    .data(function(d){
+      return [d];
+    })
+    .join("div")
+      .attr("class", "slider-name")
+
+  sliderName.append("input")
+    .attr("type", "checkbox")
+    .property("checked", function(d){
+      return state.metrics.indexOf(d) >= 0;
+    })
+    .attr("value", function(d){
+      return d
+    })
+    .on("click", function(event, d){
+      console.log(d)
+      let thisChecked = d3.select(this).property("checked");
+      console.log(thisChecked)
+      if (thisChecked === true){
+        state.metrics.push(d);
+      } else {
+        state.metrics = state.metrics.filter(function(m){
+          return m !== d;
+        });
+      }
+      updateRects();
+    })
+
+    // .on("click", function(event, d){
+    //   let thisSelected = d3.select(this).classed("selected");
+    //   if (thisSelected === true) {
+    //     state.filters = state.filters.filter(function(f){
+    //       return f !== d;
+    //     });
+    //   } else {
+    //     state.filters.push(d);
+    //   }
+    //   d3.select(this).classed("selected", !thisSelected);
+    //   updateRects()
+    // })
+
+  sliderName.append("span")
+    .html(function(d){
+      return d;
+    })
+
+  sliderName.append("span")
+    .attr("class", "info")
+    .html("i")
 
   const steps = 100.0;
 
