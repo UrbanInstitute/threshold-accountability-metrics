@@ -338,6 +338,7 @@ Promise.all([
         .max(obj.max)
         .step((obj.max-obj.min)/steps)
         .width(300)
+        .handle(d="M -10, 0 m 0, 0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0")
         .on("end", function(val) {
           thresholds[d] = val;
           updateRects();
