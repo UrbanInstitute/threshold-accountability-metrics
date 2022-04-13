@@ -76,6 +76,10 @@
   margin-right: 17px;
 }
 
+.slider.faded .slider-name {
+  color: #696969;
+}
+
 input[type=checkbox] {
   position: relative;
   cursor: pointer;
@@ -185,6 +189,19 @@ input[type=checkbox]:checked:after {
 
 .slider svg {
   margin-left: 27px;
+}
+
+g.slider .track {
+  stroke: #D2D2D2;
+}
+
+g.slider path {
+  color: #696969;
+  stroke-width: 2px;
+}
+
+.slider.faded path {
+  fill: #ECECEC;
 }
 
 #filters-title {
