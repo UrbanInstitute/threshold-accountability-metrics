@@ -270,7 +270,7 @@ g.slider path {
 
 .pass-div {
   border-bottom: 1px solid #D2D2D2;
-  padding: 35px 40px;
+  padding: 35px 0;
 }
 
 .pass-div:last-of-type {

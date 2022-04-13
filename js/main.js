@@ -287,6 +287,16 @@ Promise.all([
 
     rects.exit().transition().duration(transitionTime).remove();
 
+    // SET LINE HEIGHT FOR pass-name
+
+    d3.selectAll(".pass-div")
+      .each(function(d){
+        let thisDiv = d3.select(this);
+        let thisHeight = thisDiv.select(".institution-div").node().getBoundingClientRect().height;
+        thisDiv.select(".pass-name")
+          .style("line-height", thisHeight + 'px')
+      })
+
   }
 
   // ADD BUTTONS
