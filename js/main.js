@@ -23,7 +23,14 @@ let metricLabels = {
   'completion_rate_150': 'Completion Rate',
   'share_outstanding_ug_5': 'Successful Loan Repayment',
   'cdr3_wgtd': 'Loan Default Rate',
-  'pct25_earn_wne_p10': 'Post-College Earnings'
+  'pct25_earn_wne_p10': 'Post-college Earnings'
+}
+
+let tooltipText = {
+  'completion_rate_150': 'We define “completion” as students who earn their degree at their first institution within 150 percent of the normal time expected to finish (i.e., three years for associate degrees and six years for bachelor’s degrees).',
+  'share_outstanding_ug_5': 'We measure the share of the dollars students borrowed that have been repaid after five years.',
+  'cdr3_wgtd': 'We measure the share of all students attending the institution who default on their loans—not just the share of borrowers who default.',
+  'pct25_earn_wne_p10': 'We measure whether three-quarters of students earn more than a specified threshold.'
 }
 
 let filterLabels = {
@@ -354,7 +361,27 @@ Promise.all([
     })
 
   sliderName.append("span")
-    .attr("class", "info");
+    .attr("class", "info")
+    .on("mouseover", function(d){
+      d3.select(this).select("p")
+        .classed("show", true);
+    })
+    .on("mouseleave", function(d){
+      d3.select(this).select("p")
+        .classed("show", false);
+    })
+    .append("p")
+    .html(function(d){
+      return tooltipText[d];
+    })
+
+  sliderName.selectAll(".info")
+    .each(function(g){
+      let thisInfo = d3.select(this).selectAll(".info p")
+        .classed("show", true);
+      thisInfo.style("top", -(thisInfo.node().getBoundingClientRect().height + 10 + 15) + 'px');
+      thisInfo.classed("show", false)
+    });
 
   const steps = 100.0;
 
