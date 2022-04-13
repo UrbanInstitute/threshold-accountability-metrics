@@ -64,12 +64,13 @@ if (isMobile){
 let width = widthChart - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
-let svgWidth = 200,
+let barWidth = 200
+    svgWidth = 350,
     svgHeight = 20;
 
 let xScale = d3.scaleLinear()
     .domain([0, 100])
-    .range([0, svgWidth])
+    .range([0, barWidth])
 
 let thresholds = {
   'completion_rate_150': null,
@@ -270,11 +271,10 @@ Promise.all([
       .attr("x", xScale(0))
       .attr("y", 0)
       .attr("width", function(d){
-        return xScale(d.n/totals[d.type] * 100);
+        return xScale(d.n / totals[d.type] * 100);
       })
 
     rects.enter().append("rect")
-      .transition().duration(transitionTime)
       .attr("fill", function(d){
         return colors[d.type];
       })
@@ -282,10 +282,38 @@ Promise.all([
       .attr("x", xScale(0))
       .attr("y", 0)
       .attr("width", function(d){
-        return xScale(d.n/totals[d.type] * 100);
+        return xScale(d.n / totals[d.type] * 100);
       })
 
     rects.exit().transition().duration(transitionTime).remove();
+
+    let xOffset = 8;
+
+    let text = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar").selectAll("svg").selectAll("text")
+      .data(function(d){
+        return [d];
+      })
+
+    text.html(function(d){
+        return '<tspan class="primary-metric">' + (d.n / totals[d.type] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + d3.format(",")(d.n) + ')</tspan>';
+      })
+      .transition().duration(transitionTime)
+      .attr("x", function(d){
+        return xScale(d.n / totals[d.type] * 100) + xOffset;
+      })
+      .attr("y", 14 + (svgHeight - 16)/2);
+
+    text.enter().append("text")
+      .html(function(d){
+        return '<tspan class="primary-metric">' + (d.n / totals[d.type] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + d3.format(",")(d.n) + ')</tspan>';
+      })
+      .attr("x", function(d){
+        return xScale(d.n / totals[d.type] * 100) + xOffset;
+      })
+      .attr("y", 14 + (svgHeight - 16)/2)
+      .attr("fill", "black");
+
+    text.exit().transition().duration(transitionTime).remove();
 
     // SET LINE HEIGHT FOR pass-name
 

@@ -323,3 +323,16 @@ g.slider path {
   display: block;
   margin-bottom: 9px;
 }
+
+.svg-bar tspan {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  fill: #000000;
+}
+
+.svg-bar .secondary-metric {
+  fill: #696969;
+}
