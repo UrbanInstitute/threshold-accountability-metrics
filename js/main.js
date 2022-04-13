@@ -262,17 +262,7 @@ Promise.all([
         return [d];
       })
 
-    rects.attr("fill", function(d){
-      return colors[d.type];
-    })
-      .attr("height", svgHeight)
-      .attr("x", xScale(0))
-      .attr("y", 0)
-      .attr("width", function(d){
-        return xScale(d.n/totals[d.type] * 100);
-      })
-
-    rects.enter().append("rect")
+    rects.transition().duration(transitionTime)
       .attr("fill", function(d){
         return colors[d.type];
       })
@@ -283,7 +273,19 @@ Promise.all([
         return xScale(d.n/totals[d.type] * 100);
       })
 
-    rects.exit().remove();
+    rects.enter().append("rect")
+      .transition().duration(transitionTime)
+      .attr("fill", function(d){
+        return colors[d.type];
+      })
+      .attr("height", svgHeight)
+      .attr("x", xScale(0))
+      .attr("y", 0)
+      .attr("width", function(d){
+        return xScale(d.n/totals[d.type] * 100);
+      })
+
+    rects.exit().transition().duration(transitionTime).remove();
 
   }
 
