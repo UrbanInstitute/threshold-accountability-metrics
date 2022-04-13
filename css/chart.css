@@ -5,6 +5,9 @@
   line-height: 162.5%;
   color: #353535;
   text-align: left;
+
+  border-top: 1px solid #D2D2D2;
+  padding-top: 24px;
 }
 
 #buttons {
@@ -34,7 +37,7 @@
   align-items: center;
   text-align: center;
 
-  padding: 10px 30px;
+  padding: 10px 24px;
   cursor: pointer;
 }
 
@@ -60,7 +63,7 @@
 }
 
 .slider {
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .slider-name {
@@ -253,13 +256,25 @@ g.slider path {
 
 #left-col {
   display: inline-block;
-  width: 25%;
+  width: 23%;
+  padding: 17px 23px;
 }
 
 #right-col {
   display: inline-block;
   vertical-align: top;
-  width: 74%;
+  width: 70%;
+  border-left: 2px solid #D2D2D2;
+  padding-left: 40px;
+}
+
+.pass-div {
+  border-bottom: 1px solid #D2D2D2;
+  padding: 35px 40px;
+}
+
+.pass-div:last-of-type {
+  border: 0;
 }
 
 .pass-name, .institution-div, .institution-level-name, .institution-level-bar {
@@ -279,6 +294,14 @@ g.slider path {
   text-transform: uppercase;
 
   color: #353535;
+}
+
+.institution-level {
+  margin-bottom: 40px;
+}
+
+.institution-level:last-of-type {
+  margin-bottom: 0;
 }
 
 .institution-level-name {
