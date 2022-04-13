@@ -191,8 +191,19 @@ input[type=checkbox]:checked:after {
   margin-left: 27px;
 }
 
-g.slider .track {
+.slider .track {
+  stroke: #000000;
+  stroke-width: 5px;
+}
+
+.slider.faded .track {
+  stroke: #9D9D9D;
+  stroke-width: 5px;
+}
+
+.slider .track-inset {
   stroke: #D2D2D2;
+  stroke-width: 5px;
 }
 
 g.slider path {

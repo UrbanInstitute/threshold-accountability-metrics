@@ -389,6 +389,7 @@ Promise.all([
 
   sliders.selectAll("svg")
     .data(function(d) {
+      let thisSlider = d3.select(this);
       let obj = {};
       obj.metric = d;
       [obj.min, obj.max] = d3.extent(schools, function(s){
@@ -402,8 +403,16 @@ Promise.all([
         .width(300)
         .handle("M -10, 0 m 0, 0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0")
         .on("end", function(val) {
+          let leftOffset = thisSlider.select(".parameter-value").node().transform.baseVal.getItem(0).matrix.e;
+          thisSlider.select(".track-inset")
+            .attr("x1", leftOffset)
           thresholds[d] = val;
           updateRects();
+        })
+        .on("drag", function(val) {
+          let leftOffset = thisSlider.select(".parameter-value").node().transform.baseVal.getItem(0).matrix.e;
+          thisSlider.select(".track-inset")
+            .attr("x1", leftOffset)
         });
       return [obj]
     })
@@ -413,7 +422,7 @@ Promise.all([
       .attr("height", 60)
       .each(function(d,i,j) {
         d3.select(j[0]).call(d.slider);
-        d3.select(j[0]).select(".track-inset").remove();
+        // d3.select(j[0]).select(".track-inset").remove();
       });
 
   // ADD FILTERS
