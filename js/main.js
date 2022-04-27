@@ -119,7 +119,7 @@ Promise.all([
   var schools = data[0];
 
   console.log(schools);
-  
+
   let totals = {};
   const ySpace = metrics.length + 1;
 
@@ -270,7 +270,7 @@ Promise.all([
 
     svgRects.exit().remove();
 
-    let rects = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar").selectAll("svg").selectAll("rect")
+    let rects = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar").selectAll("svg").selectAll(".bar")
       .data(function(d){
         return [d];
       })
@@ -287,6 +287,7 @@ Promise.all([
       })
 
     rects.enter().append("rect")
+      .attr("class", "bar")
       .attr("fill", function(d){
         return colors[d.type];
       })
