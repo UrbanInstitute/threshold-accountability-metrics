@@ -218,6 +218,22 @@ g.slider path {
   fill: #ECECEC;
 }
 
+.slider .tick text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+
+  color: #000000;
+}
+
+.slider .parameter-value text {
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 21px;
+
+  color: #000000;
+}
+
 #filters-title {
   color: #000000;
   font-style: italic;

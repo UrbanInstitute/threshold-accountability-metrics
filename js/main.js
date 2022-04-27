@@ -592,6 +592,9 @@ Promise.all([
           d3.select(j[0]).select(".track-inset")
             .attr("x2", leftOffset);
         }
+        d3.select(j[0]).selectAll(".tick").selectAll("line")
+          .attr("y2", 11)
+          .attr("stroke", "#D2D2D2")
       });
 
   // ADD FILTERS
