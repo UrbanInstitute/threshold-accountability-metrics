@@ -2,14 +2,14 @@ const isMobile = $(window).width() < 770;
 
 let offsetWidth, widthChart;
 
-const metrics = ['completion_rate_150', 'share_outstanding_ug_5', 'cdr3_wgtd', 'pct25_earn_wne_p10'];
+const metrics = ['cdr3_wgtd', 'share_outstanding_ug_5', 'completion_rate_150', 'pct25_earn_wne_p10'];
 const schoolTypes = ['Nonprofit', 'Public', 'For-profit'];
 const levels = ['4-year', '2-year', 'less-than-2-year'];
 const buttons = ['Students', 'Institutions'];
 
 let state = {
   filters: [],
-  metrics: ['cdr3_wgtd'],
+  metrics: ['cdr3_wgtd', 'share_outstanding_ug_5', 'completion_rate_150', 'pct25_earn_wne_p10'],
   button: 'Students'
 }
 
@@ -31,6 +31,20 @@ let tooltipText = {
   'share_outstanding_ug_5': 'We measure the share of the dollars students borrowed that have been repaid after five years.',
   'cdr3_wgtd': 'We measure the share of all students attending the institution who default on their loans—not just the share of borrowers who default.',
   'pct25_earn_wne_p10': 'We measure whether three-quarters of students earn more than a specified threshold.'
+}
+
+let passMetric = {
+  'completion_rate_150': 'above',
+  'share_outstanding_ug_5': 'below',
+  'cdr3_wgtd': 'below',
+  'pct25_earn_wne_p10': 'above'
+}
+
+let defaultMetric = {
+  'completion_rate_150': 0.16,
+  'share_outstanding_ug_5': 1.17,
+  'cdr3_wgtd': 0.08,
+  'pct25_earn_wne_p10': 16700
 }
 
 let filterLabels = {
@@ -121,7 +135,7 @@ Promise.all([
   function updateRects() {
 
     schools.forEach(function(d){
-      d.pass = state.metrics.reduce((a,b) => +(d[b] >= thresholds[b]) + a, 0);
+      d.pass = state.metrics.reduce((a,b) => passMetric[b] === 'above' ? +(d[b] >= thresholds[b]) + a : +(d[b] <= thresholds[b]) + a, 0);
     })
     let passes = d3.range(0, state.metrics.length + 1);
     schoolTypes.forEach(function(st){
@@ -442,16 +456,28 @@ Promise.all([
         .handle("M -10, 0 m 0, 0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0")
         .on("end", function(val) {
           let leftOffset = thisSlider.select(".parameter-value").node().transform.baseVal.getItem(0).matrix.e;
-          thisSlider.select(".track-inset")
-            .attr("x1", leftOffset)
+          if (passMetric[d] === 'below') {
+            thisSlider.select(".track-inset")
+              .attr("x1", leftOffset);
+          } else {
+            thisSlider.select(".track-inset")
+              .attr("x2", leftOffset);
+          }
           thresholds[d] = val;
           updateRects();
         })
         .on("drag", function(val) {
           let leftOffset = thisSlider.select(".parameter-value").node().transform.baseVal.getItem(0).matrix.e;
-          thisSlider.select(".track-inset")
-            .attr("x1", leftOffset)
+          if (passMetric[d] === 'below') {
+            thisSlider.select(".track-inset")
+              .attr("x1", leftOffset);
+          } else {
+            thisSlider.select(".track-inset")
+              .attr("x2", leftOffset);
+          }
         });
+
+      obj.slider.default(defaultMetric[d])
       return [obj]
     })
     .join('svg')
@@ -460,7 +486,14 @@ Promise.all([
       .attr("height", 60)
       .each(function(d,i,j) {
         d3.select(j[0]).call(d.slider);
-        // d3.select(j[0]).select(".track-inset").remove();
+        let leftOffset = d3.select(j[0]).select(".parameter-value").node().transform.baseVal.getItem(0).matrix.e;
+        if (passMetric[d.metric] === 'below') {
+          d3.select(j[0]).select(".track-inset")
+            .attr("x1", leftOffset);
+        } else {
+          d3.select(j[0]).select(".track-inset")
+            .attr("x2", leftOffset);
+        }
       });
 
   // ADD FILTERS
