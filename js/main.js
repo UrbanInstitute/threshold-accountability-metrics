@@ -441,6 +441,17 @@ Promise.all([
         }
       })
 
+  d3.select("#buttons")
+    .style("width", function(d){
+      console.log(buttonsSpan)
+      let thisWidth = buttonsSpan._groups[0].map(function(b){
+        return d3.select(b).node().getBoundingClientRect().width;
+      }).reduce(function(a,b){
+        return a + b;
+      }, 0)
+      return thisWidth + 2 + 'px';
+    })
+
   // ADD SLIDERS
 
   const sliders = d3.select("#sliders").selectAll("div")

@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 #interactive {
   font-family: 'Lato';
   font-size: 20px;
@@ -367,4 +371,18 @@ g.slider path {
 
 .svg-bar .secondary-metric {
   fill: #696969;
+}
+
+@media (max-width: 770px) {
+  #left-col {
+    width: 100%;
+    margin: 0;
+    padding: 0 16px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
+  }
+
+  #filters {
+    margin-bottom: 43px;
+  }
 }
