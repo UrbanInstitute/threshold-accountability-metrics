@@ -451,7 +451,7 @@ Promise.all([
       }).reduce(function(a,b){
         return a + b;
       }, 0)
-      return thisWidth + 2 + 'px';
+      return thisWidth + 'px';
     })
 
   // ADD SLIDERS
