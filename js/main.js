@@ -10,7 +10,8 @@ const buttons = ['Students', 'Institutions'];
 let state = {
   filters: ['Nonprofit', 'Public', 'For-profit'],
   metrics: ['cdr3_wgtd', 'share_outstanding_ug_5', 'completion_rate_150', 'pct25_earn_wne_p10'],
-  button: 'Students'
+  button: 'Students',
+  showingSliders: false
 }
 
 let levelLabels = {
@@ -631,6 +632,30 @@ Promise.all([
         d3.select(this).classed("selected", !thisSelected);
         updateRects()
       })
+
+  // SHOW/HIDE SLIDERS FOR MOBILE
+  if (isMobile) {
+    d3.select("#left-col").style("display", "none");
+    d3.select("#show-sliders").style("display", "block");
+    d3.select("#show-button")
+      .html(function(){
+        if (state.showingSliders === true) {
+          return "Hide sliders";
+        } else {
+          return "Show sliders";
+        }
+      })
+      .on("click", function(){
+        if (state.showingSliders === true) {
+          d3.select("#left-col").style("display", "none");
+          d3.select("#show-button").html("Show sliders");
+        } else {
+          d3.select("#left-col").style("display", "block");
+          d3.select("#show-button").html("Hide sliders");
+        }
+        state.showingSliders = !state.showingSliders;
+      })
+  }
 
   updateSliders();
   updateRects();
