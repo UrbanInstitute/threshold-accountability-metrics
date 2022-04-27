@@ -634,9 +634,20 @@ Promise.all([
       })
 
   // SHOW/HIDE SLIDERS FOR MOBILE
+
+  function hideSliders() {
+    d3.select("#slider-filters").style("display", "none");
+    d3.select("#show-button").html("Show sliders");
+  }
+
+  function showSliders() {
+    d3.select("#slider-filters").style("display", "block");
+    d3.select("#show-button").html("Hide sliders");
+  }
+
   if (isMobile) {
-    d3.select("#left-col").style("display", "none");
-    d3.select("#show-sliders").style("display", "block");
+    d3.select("#slider-filters").style("display", "none");
+    d3.select("#show-sliders").style("display", "inline-block");
     d3.select("#show-button")
       .html(function(){
         if (state.showingSliders === true) {
@@ -647,11 +658,9 @@ Promise.all([
       })
       .on("click", function(){
         if (state.showingSliders === true) {
-          d3.select("#left-col").style("display", "none");
-          d3.select("#show-button").html("Show sliders");
+          hideSliders();
         } else {
-          d3.select("#left-col").style("display", "block");
-          d3.select("#show-button").html("Hide sliders");
+          showSliders();
         }
         state.showingSliders = !state.showingSliders;
       })
