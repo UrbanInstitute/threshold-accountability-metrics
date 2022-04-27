@@ -524,12 +524,33 @@ Promise.all([
       [obj.min, obj.max] = d3.extent(schools, function(s){
         return s[d];
       });
+      let delta = (obj.max - obj.min) / 10.;
+      let tickValues = d3.range(obj.min, obj.max + delta, delta);
       thresholds[d] = obj.min; // INITIALIZE THRESHOLDS
       obj.slider = d3.sliderHorizontal()
         .min(obj.min)
         .max(obj.max)
         .step((obj.max-obj.min)/steps)
         .width(300)
+        .tickValues(tickValues)
+        .tickFormat(function(t, i){
+          if (i === 0 || i === tickValues.length - 1) {
+            if (d === 'pct25_earn_wne_p10') {
+              return d3.format(",")(t);
+            } else {
+              return (t * 100).toFixed(0) + '%';
+            }
+          } else {
+            return "";
+          }
+        })
+        .displayFormat(function(t){
+          if (d === 'pct25_earn_wne_p10') {
+            return d3.format(",")(t);
+          } else {
+            return (t * 100).toFixed(0) + '%';
+          }
+        })
         .handle("M -10, 0 m 0, 0 a 10,10 0 1,0 20,0 a 10,10 0 1,0 -20,0")
         .on("end", function(val) {
           let leftOffset = thisSlider.select(".parameter-value").node().transform.baseVal.getItem(0).matrix.e;
