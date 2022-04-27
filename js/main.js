@@ -238,7 +238,7 @@ Promise.all([
 
     institutionLevelBars.exit().remove();
 
-    let svgRects = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar").selectAll("svg")
+    let svgRects = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar").selectAll(".svg-bar")
       .data(function(d){
         return state.filters.map(function(st){
           let obj = {}
@@ -270,7 +270,7 @@ Promise.all([
 
     svgRects.exit().remove();
 
-    let rects = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar").selectAll("svg").selectAll(".bar")
+    let rects = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar").selectAll(".svg-bar").selectAll(".bar")
       .data(function(d){
         return [d];
       })
@@ -302,7 +302,7 @@ Promise.all([
 
     let xOffset = 8;
 
-    let text = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar").selectAll("svg").selectAll("text")
+    let text = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-bar").selectAll(".svg-bar").selectAll("text")
       .data(function(d){
         return [d];
       })
@@ -327,6 +327,84 @@ Promise.all([
       .attr("fill", "black");
 
     text.exit().transition().duration(transitionTime).remove();
+
+    let institutionLevelLegend = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-legend")
+      .data(function(d,i){
+        if (i === 0) {
+          return [filters];
+        } else {
+          return [];
+        }
+      });
+
+    institutionLevelLegend.attr("class", "institution-level-legend");
+
+    institutionLevelLegend.enter().append("div")
+      .attr("class", "institution-level-legend");
+
+    institutionLevelLegend.exit().remove();
+
+    let svgLegend = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-legend").selectAll(".legend-svg")
+      .data(state.filters);
+
+    svgLegend.attr("width", svgHeight * 6)
+      .attr("height", svgHeight)
+      .attr("class", "legend-svg");
+
+    svgLegend.enter().append("svg")
+      .attr("width", svgHeight * 6)
+      .attr("height", svgHeight)
+      .attr("class", "legend-svg");
+
+    svgLegend.exit().remove();
+
+    let legendRects = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-legend").selectAll(".legend-svg").selectAll(".square")
+      .data(function(d){
+        return [d];
+      })
+
+    legendRects.transition().duration(transitionTime)
+      .attr("fill", function(d){
+        return colors[d];
+      })
+      .attr("height", svgHeight)
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", svgHeight);
+
+    legendRects.enter().append("rect")
+      .attr("class", "bar")
+      .attr("fill", function(d){
+        return colors[d];
+      })
+      .attr("height", svgHeight)
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("width", svgHeight);
+
+    legendRects.exit().remove();
+
+    let legendText = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-legend").selectAll(".legend-svg").selectAll("text")
+      .data(function(d){
+        return [d];
+      })
+
+    legendText.html(function(d){
+        return filterLabels[d];
+      })
+      .attr("x", svgHeight + 5)
+      .attr("y", 14 + (svgHeight - 16)/2);
+
+    legendText.enter().append("text")
+      .attr("class", "legend-text")
+      .html(function(d){
+        return filterLabels[d];
+      })
+      .attr("x", svgHeight + 5)
+      .attr("y", 14 + (svgHeight - 16)/2)
+      .attr("fill", "black");
+
+    legendText.exit().remove();
 
     // SET LINE HEIGHT FOR pass-name
 

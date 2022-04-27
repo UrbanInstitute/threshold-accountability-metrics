@@ -277,7 +277,7 @@ g.slider path {
   border: 0;
 }
 
-.pass-name, .institution-div, .institution-level-name, .institution-level-bar {
+.pass-name, .institution-div, .institution-level-name, .institution-level-bar, .institution-level-legend {
   display: inline-block;
 }
 
@@ -317,6 +317,22 @@ g.slider path {
   color: #353535;
 
   margin-right: 20px;
+}
+
+.legend-svg {
+  display: block;
+  margin-bottom: 9px;
+}
+
+.legend-text {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+
+  display: flex;
+  align-items: center;
+
+  color: #000000;
 }
 
 .svg-bar {
