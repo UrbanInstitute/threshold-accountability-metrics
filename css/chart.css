@@ -374,15 +374,43 @@ g.slider path {
 }
 
 @media (max-width: 770px) {
+  #interactive {
+    width: 100%;
+  }
+
   #left-col {
     width: 100%;
     margin: 0;
-    padding: 0 16px;
+    padding: 0;
     background: #FFFFFF;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   }
 
+  #buttons, #description, #sliders, #filters {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
   #filters {
     margin-bottom: 43px;
+  }
+
+  #right-col {
+    border-left: 0;
+    padding: 0;
+    width: 100%;
+  }
+
+  .pass-div {
+    padding: 15px 0 28px 0;
+    margin: 0 17px 0 17px;
+  }
+
+  .institution-level {
+    margin-bottom: 16px;
+  }
+
+  .institution-level-name {
+    text-align: left;
   }
 }

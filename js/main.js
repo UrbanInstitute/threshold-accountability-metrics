@@ -78,8 +78,8 @@ if (isMobile){
 let width = widthChart - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
-let barWidth = 200
-    svgWidth = 350,
+let barWidth = isMobile ? 150 : 200,
+    svgWidth = isMobile ? 300 : 350,
     svgHeight = 20;
 
 let xScale = d3.scaleLinear()
@@ -408,14 +408,15 @@ Promise.all([
 
     // SET LINE HEIGHT FOR pass-name
 
-    d3.selectAll(".pass-div")
-      .each(function(d){
-        let thisDiv = d3.select(this);
-        let thisHeight = thisDiv.select(".institution-div").node().getBoundingClientRect().height;
-        thisDiv.select(".pass-name")
-          .style("line-height", thisHeight + 'px')
-      })
-
+    if (!isMobile){
+      d3.selectAll(".pass-div")
+        .each(function(d){
+          let thisDiv = d3.select(this);
+          let thisHeight = thisDiv.select(".institution-div").node().getBoundingClientRect().height;
+          thisDiv.select(".pass-name")
+            .style("line-height", thisHeight + 'px')
+        })
+    }
   }
 
   // ADD BUTTONS
