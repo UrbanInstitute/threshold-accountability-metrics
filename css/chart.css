@@ -427,7 +427,7 @@ g.slider path {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   }
 
-  #show-sliders, #buttons, #description, #sliders, #filters {
+  #show-sliders, #buttons, #description, #sliders, #filters, .institution-level-legend {
     margin-left: 16px;
     margin-right: 16px;
   }
@@ -453,5 +453,9 @@ g.slider path {
 
   .institution-level-name {
     text-align: left;
+  }
+
+  .legend-svg {
+    display: inline-block;
   }
 }
