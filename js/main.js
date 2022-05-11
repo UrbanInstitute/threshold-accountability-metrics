@@ -487,16 +487,27 @@ Promise.all([
         }
       })
 
-  d3.select("#buttons")
-    .style("width", function(d){
-      console.log(buttonsSpan)
-      let thisWidth = buttonsSpan._groups[0].map(function(b){
+  let buttonsWidth = buttonsSpan._groups[0].map(function(b){
         return d3.select(b).node().getBoundingClientRect().width;
       }).reduce(function(a,b){
         return a + b;
-      }, 0)
-      return thisWidth + 'px';
-    })
+      }, 0);
+  let buttonsDivWidth = d3.select("#buttons").node().getBoundingClientRect().width;
+
+  d3.select("#buttons").selectAll("span")
+    .style("padding-left", (buttonsDivWidth - buttonsWidth)/4 + 'px')
+    .style("padding-right", (buttonsDivWidth - buttonsWidth)/4 + 'px')
+
+  // d3.select("#buttons")
+  //   .style("width", function(d){
+  //     console.log(buttonsSpan)
+  //     let thisWidth = buttonsSpan._groups[0].map(function(b){
+  //       return d3.select(b).node().getBoundingClientRect().width;
+  //     }).reduce(function(a,b){
+  //       return a + b;
+  //     }, 0)
+  //     return thisWidth + 'px';
+  //   })
 
   // ADD SLIDERS
 

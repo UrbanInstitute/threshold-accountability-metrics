@@ -23,6 +23,7 @@ body {
   align-items: center;
   text-align: center;
   text-transform: uppercase;
+  width: 100%;
 
   color: #696969;
 
@@ -42,7 +43,8 @@ body {
   align-items: center;
   text-align: center;
 
-  padding: 10px 24px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   cursor: pointer;
 }
 
@@ -277,8 +279,8 @@ g.slider path {
 
 #left-col {
   display: inline-block;
-  width: calc(30% - 23px);
-  padding: 17px 23px 17px 0;
+  width: calc(30% - 46px);
+  padding: 17px 23px;
 }
 
 #right-col {
