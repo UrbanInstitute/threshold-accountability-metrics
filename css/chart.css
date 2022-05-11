@@ -11,6 +11,8 @@ body {
 #interactive {
   border-top: 1px solid #D2D2D2;
   padding-top: 24px;
+  max-width: 1160px;
+  margin: 0 auto;
 }
 
 #buttons {
@@ -275,14 +277,14 @@ g.slider path {
 
 #left-col {
   display: inline-block;
-  width: 23%;
-  padding: 17px 23px;
+  width: calc(30% - 23px);
+  padding: 17px 23px 17px 0;
 }
 
 #right-col {
   display: inline-block;
   vertical-align: top;
-  width: 70%;
+  width: calc(69% - 40px);
   border-left: 2px solid #D2D2D2;
   padding-left: 40px;
 }
@@ -385,12 +387,10 @@ g.slider path {
 }
 
 @media (min-width: 770px) {
-  #sticky {
-    position: fixed;
-    width: 23%;
-    padding: 17px 23px;
+  #left-col {
+    position: -webkit-sticky;
+    position: sticky;
     top: 0;
-    left: 0;
   }
 }
 
