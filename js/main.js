@@ -245,7 +245,8 @@ Promise.all([
           obj.level = d.level;
           obj.type = st;
           let theseSchools = schools.filter(function(s){
-            return ((s.pass === d.pass) && (s.sector.includes(d.level)) && (s.sector.includes(st)))
+            let splitSector = s.sector.split(" ");
+            return ((s.pass === d.pass) && (splitSector[1] === d.level) && (splitSector[0] === st));
           })
           if (state.button === 'institutions') {
             obj.n = theseSchools.length;
