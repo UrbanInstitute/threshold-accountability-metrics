@@ -119,8 +119,6 @@ Promise.all([
 ]).then(function(data) {
   var schools = data[0];
 
-  console.log(schools);
-
   let totals = {};
   const ySpace = metrics.length + 1;
 
@@ -487,6 +485,7 @@ Promise.all([
         }
       })
 
+  // Adjust their width
   let buttonsWidth = buttonsSpan._groups[0].map(function(b){
         return d3.select(b).node().getBoundingClientRect().width;
       }).reduce(function(a,b){
@@ -497,17 +496,6 @@ Promise.all([
   d3.select("#buttons").selectAll("span")
     .style("padding-left", (buttonsDivWidth - buttonsWidth)/4 + 'px')
     .style("padding-right", (buttonsDivWidth - buttonsWidth)/4 + 'px')
-
-  // d3.select("#buttons")
-  //   .style("width", function(d){
-  //     console.log(buttonsSpan)
-  //     let thisWidth = buttonsSpan._groups[0].map(function(b){
-  //       return d3.select(b).node().getBoundingClientRect().width;
-  //     }).reduce(function(a,b){
-  //       return a + b;
-  //     }, 0)
-  //     return thisWidth + 'px';
-  //   })
 
   // ADD SLIDERS
 
