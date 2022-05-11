@@ -363,12 +363,19 @@ Promise.all([
       svgLegend = d3.select("#button-description").selectAll(".institution-level-legend").selectAll(".legend-svg")
         .data(state.filters);
 
-      svgLegendWidth = svgHeight * 5;
+      svgLegendWidth = 100;
     } else {
       svgLegend = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-legend").selectAll(".legend-svg")
         .data(state.filters);
 
-      svgLegendWidth = svgHeight * 6;
+      svgLegendWidth = 100;
+
+      d3.selectAll(".pass-div")
+        .selectAll(".institution-div")
+        .selectAll(".institution-level")
+        .selectAll(".institution-level-legend")
+        .style("position", "absolute")
+        .style("right", (svgLegendWidth + 10) + 'px');
     }
 
     svgLegend.attr("width", svgLegendWidth)
@@ -581,7 +588,7 @@ Promise.all([
         .min(obj.min)
         .max(obj.max)
         .step((obj.max-obj.min)/steps)
-        .width(300)
+        .width(290)
         .tickValues(tickValues)
         .tickFormat(function(t, i){
           if (i === 0 || i === tickValues.length - 1) {
@@ -630,7 +637,7 @@ Promise.all([
     })
     .join('svg')
       .attr("viewBox", [-20, -20, 340, 60])
-      .attr("width", 300)
+      .attr("width", "93%")
       .attr("height", 60)
       .each(function(d,i,j) {
         d3.select(j[0]).call(d.slider);
