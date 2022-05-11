@@ -85,7 +85,7 @@ let barWidth = isMobile ? 100 : 150,
 
 let xScale = d3.scaleLinear()
     .domain([0, 100])
-    .range([0, barWidth])
+    .range([0, barWidth]);
 
 let thresholds = {
   'completion_rate_150': null,
@@ -134,7 +134,12 @@ Promise.all([
     schools.forEach(function(d){
       d.pass = state.metrics.reduce((a,b) => passMetric[b] === 'above' ? +(d[b] >= thresholds[b]) + a : +(d[b] <= thresholds[b]) + a, 0);
     })
-    let passes = d3.range(0, state.metrics.length + 1);
+    let passes;
+    if (state.metrics.length === 0){
+      passes = [];
+    } else {
+      passes = d3.range(0, state.metrics.length + 1);
+    }
     schoolTypes.forEach(function(st){
       let filteredSchools = schools.filter(function(s){
         return s["sector"].includes(st);
