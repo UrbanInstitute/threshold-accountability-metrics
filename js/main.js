@@ -5,12 +5,12 @@ let offsetWidth, widthChart;
 const metrics = ['cdr3_wgtd', 'share_outstanding_ug_5', 'completion_rate_150', 'pct25_earn_wne_p10'];
 const schoolTypes = ['Nonprofit', 'Public', 'For-profit'];
 const levels = ['4-year', '2-year', 'less-than-2-year'];
-const buttons = ['Students', 'Institutions'];
+const buttons = ['students', 'institutions'];
 
 let state = {
   filters: ['Nonprofit', 'Public', 'For-profit'],
   metrics: ['cdr3_wgtd', 'share_outstanding_ug_5', 'completion_rate_150', 'pct25_earn_wne_p10'],
-  button: 'Students',
+  button: 'students',
   showingSliders: false
 }
 
@@ -79,7 +79,7 @@ if (isMobile){
 let width = widthChart - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
-let barWidth = isMobile ? 150 : 200,
+let barWidth = isMobile ? 100 : 150,
     svgWidth = isMobile ? 300 : 350,
     svgHeight = 20;
 
@@ -139,7 +139,7 @@ Promise.all([
       let filteredSchools = schools.filter(function(s){
         return s["sector"].includes(st);
       });
-      if (state.button === 'Students') {
+      if (state.button === 'students') {
         totals[st] = filteredSchools.reduce(function(a,b){
           return a + b['est_fte']
         }, 0);
@@ -247,7 +247,7 @@ Promise.all([
           let theseSchools = schools.filter(function(s){
             return ((s.pass === d.pass) && (s.sector.includes(d.level)) && (s.sector.includes(st)))
           })
-          if (state.button === 'Institutions') {
+          if (state.button === 'institutions') {
             obj.n = theseSchools.length;
           } else {
             obj.n = theseSchools.reduce(function(a,b){
@@ -307,7 +307,7 @@ Promise.all([
       })
 
     text.html(function(d){
-        return '<tspan class="primary-metric">' + (d.n / totals[d.type] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + d3.format(",")(d.n) + ')</tspan>';
+        return '<tspan class="primary-metric">' + (d.n / totals[d.type] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + d3.format(",")(d.n) + ' ' + state.button + ')</tspan>';
       })
       .transition().duration(transitionTime)
       .attr("x", function(d){
@@ -317,7 +317,7 @@ Promise.all([
 
     text.enter().append("text")
       .html(function(d){
-        return '<tspan class="primary-metric">' + (d.n / totals[d.type] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + d3.format(",")(d.n) + ')</tspan>';
+        return '<tspan class="primary-metric">' + (d.n / totals[d.type] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + d3.format(",")(d.n) + ' ' + state.button + ')</tspan>';
       })
       .attr("x", function(d){
         return xScale(d.n / totals[d.type] * 100) + xOffset;
