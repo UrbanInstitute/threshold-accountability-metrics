@@ -451,6 +451,10 @@ g.slider path {
     margin-right: 16px;
   }
 
+  #buttons {
+    width: calc(100% - 32px);
+  }
+
   .institution-level-name {
     width: 100%;
   }
