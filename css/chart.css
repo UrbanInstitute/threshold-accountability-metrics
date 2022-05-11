@@ -294,6 +294,7 @@ g.slider path {
 .pass-div {
   border-bottom: 1px solid #D2D2D2;
   padding: 35px 0;
+  position: relative;
 }
 
 .pass-div:last-of-type {
@@ -393,6 +394,12 @@ g.slider path {
     position: -webkit-sticky;
     position: sticky;
     top: 0;
+  }
+
+  .institution-level-legend {
+    position: absolute;
+    top: 35px;
+    right: 0;
   }
 }
 

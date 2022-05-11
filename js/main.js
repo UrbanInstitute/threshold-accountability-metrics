@@ -342,7 +342,7 @@ Promise.all([
 
       institutionLevelLegend.exit().remove();
     } else {
-      institutionLevelLegend = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-legend")
+      institutionLevelLegend = d3.selectAll(".pass-div").selectAll(".institution-level-legend")
         .data(function(d,i){
           if (i === 0) {
             return [filters];
@@ -365,7 +365,7 @@ Promise.all([
 
       svgLegendWidth = 100;
     } else {
-      svgLegend = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-legend").selectAll(".legend-svg")
+      svgLegend = d3.selectAll(".pass-div").selectAll(".institution-level-legend").selectAll(".legend-svg")
         .data(state.filters);
 
       svgLegendWidth = 100;
@@ -395,7 +395,7 @@ Promise.all([
           return [d];
         })
     } else {
-      legendRects = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-legend").selectAll(".legend-svg").selectAll(".square")
+      legendRects = d3.selectAll(".pass-div").selectAll(".institution-level-legend").selectAll(".legend-svg").selectAll(".square")
         .data(function(d){
           return [d];
         })
@@ -428,7 +428,7 @@ Promise.all([
           return [d];
         })
     } else {
-      legendText = d3.selectAll(".pass-div").selectAll(".institution-div").selectAll(".institution-level").selectAll(".institution-level-legend").selectAll(".legend-svg").selectAll("text")
+      legendText = d3.selectAll(".pass-div").selectAll(".institution-level-legend").selectAll(".legend-svg").selectAll("text")
         .data(function(d){
           return [d];
         })
