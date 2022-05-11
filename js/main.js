@@ -28,10 +28,10 @@ let metricLabels = {
 }
 
 let tooltipText = {
-  'completion_rate_150': 'We define “completion” as students who earn their degree at their first institution within 150 percent of the normal time expected to finish (i.e., three years for associate degrees and six years for bachelor’s degrees).',
-  'share_outstanding_ug_5': 'We measure the share of the dollars students borrowed that have been repaid after five years.',
-  'cdr3_wgtd': 'We measure the share of all students attending the institution who default on their loans—not just the share of borrowers who default.',
-  'pct25_earn_wne_p10': 'We measure whether three-quarters of students earn more than a specified threshold.'
+  'completion_rate_150': 'We define “completion” as students who earn their degree at their first institution within 150 percent of the normal time expected to finish (i.e., three years for associate degrees and six years for bachelor’s degrees). This slider sets the minimum allowable completion rate for an institution.',
+  'share_outstanding_ug_5': 'We measure the share of the dollars students borrowed that have been repaid after five years. This slider sets the maximum allowable share of successful loan repayment after five years for an institution.',
+  'cdr3_wgtd': 'We measure the share of all students attending the institution who default on their loans—not just the share of borrowers who default. This slider sets the maximum allowable loan default rate for an institution.',
+  'pct25_earn_wne_p10': 'We measure whether three-quarters of students earn more than a specified threshold. This slider sets the minimum allowable earnings threshold for an institution.'
 }
 
 let passMetric = {
