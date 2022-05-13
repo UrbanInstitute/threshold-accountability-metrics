@@ -60,14 +60,6 @@ let colors = {
   'For-profit': '#FDBF11'
 }
 
- // if (isMobile){
- //   offsetWidth = 16 + 22;
- //   widthChart = document.getElementById("chart").offsetWidth;
- // } else {
- //   offsetWidth = 280;
- //   widthChart = document.getElementById("chart").offsetWidth + offsetWidth;
- // }
-
 let margin, svg, g, gs, yScale, tickValues, totalHeight, yRange, stickyHeight;
 
 if (isMobile){
@@ -79,8 +71,8 @@ if (isMobile){
 let width = widthChart - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
-let barWidth = isMobile ? 100 : 150,
-    svgWidth = isMobile ? 300 : 350,
+let barWidth = isMobile ? 30 : 120,
+    svgWidth = isMobile ? 320 : 400,
     svgHeight = 20;
 
 let xScale = d3.scaleLinear()
@@ -141,16 +133,19 @@ Promise.all([
       passes = d3.range(0, state.metrics.length + 1);
     }
     schoolTypes.forEach(function(st){
-      let filteredSchools = schools.filter(function(s){
-        return s["sector"].includes(st);
-      });
-      if (state.button === 'students') {
-        totals[st] = filteredSchools.reduce(function(a,b){
-          return a + b['est_fte']
-        }, 0);
-      } else {
-        totals[st] = filteredSchools.length;
-      }
+      levels.forEach(function(level){
+        let subset = st + ' ' + level
+        let filteredSchools = schools.filter(function(s){
+          return s.sector === subset;
+        });
+        if (state.button === 'students') {
+          totals[subset] = filteredSchools.reduce(function(a,b){
+            return a + b['est_fte']
+          }, 0);
+        } else {
+          totals[subset] = filteredSchools.length;
+        }
+      })
     })
 
     let passesDiv = d3.select("#right-col").selectAll(".pass-div")
@@ -249,9 +244,9 @@ Promise.all([
           obj.pass = d.pass;
           obj.level = d.level;
           obj.type = st;
+          obj.subset = obj.type + ' ' + obj.level;
           let theseSchools = schools.filter(function(s){
-            let splitSector = s.sector.split(" ");
-            return ((s.pass === d.pass) && (splitSector[1] === d.level) && (splitSector[0] === st));
+            return ((s.pass === d.pass) && (s.sector === st + ' ' + d.level));
           })
           if (state.button === 'institutions') {
             obj.n = theseSchools.length;
@@ -288,7 +283,7 @@ Promise.all([
       .attr("x", xScale(0))
       .attr("y", 0)
       .attr("width", function(d){
-        return xScale(d.n / totals[d.type] * 100);
+        return xScale(d.n / totals[d.subset] * 100);
       })
 
     rects.enter().append("rect")
@@ -300,7 +295,7 @@ Promise.all([
       .attr("x", xScale(0))
       .attr("y", 0)
       .attr("width", function(d){
-        return xScale(d.n / totals[d.type] * 100);
+        return xScale(d.n / totals[d.subset] * 100);
       })
 
     rects.exit().transition().duration(transitionTime).remove();
@@ -313,20 +308,20 @@ Promise.all([
       })
 
     text.html(function(d){
-        return '<tspan class="primary-metric">' + (d.n / totals[d.type] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + d3.format(",")(d.n) + ' ' + state.button + ')</tspan>';
+        return '<tspan class="primary-metric">' + (d.n / totals[d.subset] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + d3.format(",")(d.n) + '/' + d3.format(",")(totals[d.subset]) + ' ' + state.button + ')</tspan>';
       })
       .transition().duration(transitionTime)
       .attr("x", function(d){
-        return xScale(d.n / totals[d.type] * 100) + xOffset;
+        return xScale(d.n / totals[d.subset] * 100) + xOffset;
       })
       .attr("y", 14 + (svgHeight - 16)/2);
 
     text.enter().append("text")
       .html(function(d){
-        return '<tspan class="primary-metric">' + (d.n / totals[d.type] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + d3.format(",")(d.n) + ' ' + state.button + ')</tspan>';
+        return '<tspan class="primary-metric">' + (d.n / totals[d.subset] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + d3.format(",")(d.n) + '/' + d3.format(",")(totals[d.subset]) + ' ' + state.button + ')</tspan>';
       })
       .attr("x", function(d){
-        return xScale(d.n / totals[d.type] * 100) + xOffset;
+        return xScale(d.n / totals[d.subset] * 100) + xOffset;
       })
       .attr("y", 14 + (svgHeight - 16)/2)
       .attr("fill", "black");
