@@ -71,7 +71,7 @@ if (isMobile){
 let width = widthChart - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
-let barWidth = isMobile ? 30 : 120,
+let barWidth = isMobile ? 80 : 120,
     svgWidth = isMobile ? 320 : 400,
     svgHeight = 20;
 
@@ -308,7 +308,9 @@ Promise.all([
       })
 
     text.html(function(d){
-        return '<tspan class="primary-metric">' + (d.n / totals[d.subset] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + d3.format(",")(d.n) + '/' + d3.format(",")(totals[d.subset]) + ' ' + state.button + ')</tspan>';
+        let nLabel = d.n > 99999 ?  d3.format(",.3s")(d.n) : d3.format(",")(d.n);
+        let totalLabel = totals[d.subset] > 99999 ?  d3.format(",.3s")(totals[d.subset]) : d3.format(",")(totals[d.subset]);
+        return '<tspan class="primary-metric">' + (d.n / totals[d.subset] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + nLabel + '/' + totalLabel + ' ' + state.button + ')</tspan>';
       })
       .transition().duration(transitionTime)
       .attr("x", function(d){
@@ -318,7 +320,9 @@ Promise.all([
 
     text.enter().append("text")
       .html(function(d){
-        return '<tspan class="primary-metric">' + (d.n / totals[d.subset] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + d3.format(",")(d.n) + '/' + d3.format(",")(totals[d.subset]) + ' ' + state.button + ')</tspan>';
+        let nLabel = d.n > 99999 ?  d3.format(",.3s")(d.n) : d3.format(",")(d.n);
+        let totalLabel = totals[d.subset] > 99999 ?  d3.format(",.3s")(totals[d.subset]) : d3.format(",")(totals[d.subset]);
+        return '<tspan class="primary-metric">' + (d.n / totals[d.subset] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + nLabel + '/' + totalLabel + ' ' + state.button + ')</tspan>';
       })
       .attr("x", function(d){
         return xScale(d.n / totals[d.subset] * 100) + xOffset;
