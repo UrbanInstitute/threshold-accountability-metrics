@@ -344,8 +344,8 @@ Promise.all([
       })
 
     text.html(function(d){
-        let nLabel = d.n > 999999 ? d3.format(",.1s")(d.n) : d.n > 9999 ? d3.format(".2s")(d.n).replace('k', 'K') : d3.format(",.2r")(d.n);
-        let totalLabel = totals[d.subset] > 999999 ?  d3.format(",.1s")(totals[d.subset]) : totals[d.subset] > 9999 ? d3.format(".2s")(totals[d.subset]).replace('k', 'K') : d3.format(",.2r")(totals[d.subset]);
+        let nLabel = d.n > 999999 ? d3.format(",.1s")(d.n) : d.n > 9999 ? d3.format(".2s")(d.n).replace('k', 'K') : d.n > 999 ? d3.format(",.2r")(d.n) : d.n;
+        let totalLabel = totals[d.subset] > 999999 ?  d3.format(",.1s")(totals[d.subset]) : totals[d.subset] > 9999 ? d3.format(".2s")(totals[d.subset]).replace('k', 'K') : totals[d.subset] > 999 ? d3.format(",.2r")(totals[d.subset]) : totals[d.subset];
         return '<tspan class="primary-metric">' + (d.n / totals[d.subset] * 100).toFixed(0) + '%</tspan> <tspan class="secondary-metric">(' + nLabel + '/' + totalLabel + ' ' + state.button + ')</tspan>';
       })
       .transition().duration(transitionTime)
@@ -356,8 +356,8 @@ Promise.all([
 
     text.enter().append("text")
       .html(function(d){
-        let nLabel = d.n > 999999 ? d3.format(",.1s")(d.n) : d.n > 9999 ? d3.format(".2s")(d.n).replace('k', 'K') : d3.format(",.2r")(d.n);
-        let totalLabel = totals[d.subset] > 999999 ?  d3.format(",.1s")(totals[d.subset]) : totals[d.subset] > 9999 ? d3.format(".2s")(totals[d.subset]).replace('k', 'K') : d3.format(",.2r")(totals[d.subset]);
+        let nLabel = d.n > 999999 ? d3.format(",.1s")(d.n) : d.n > 9999 ? d3.format(".2s")(d.n).replace('k', 'K') : d.n > 999 ? d3.format(",.2r")(d.n) : d.n;
+        let totalLabel = totals[d.subset] > 999999 ?  d3.format(",.1s")(totals[d.subset]) : totals[d.subset] > 9999 ? d3.format(".2s")(totals[d.subset]).replace('k', 'K') : totals[d.subset] > 999 ? d3.format(",.2r")(totals[d.subset]) : totals[d.subset];
         return '<tspan class="primary-metric">' + (d.n / totals[d.subset] * 100).toFixed(0) + '%</tspan> <tspan class="secondary-metric">(' + nLabel + '/' + totalLabel + ' ' + state.button + ')</tspan>';
       })
       .attr("x", function(d){
