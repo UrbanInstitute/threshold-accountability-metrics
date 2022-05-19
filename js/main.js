@@ -611,22 +611,29 @@ Promise.all([
       thisInfo.classed("show", false)
     });
 
-  const steps = 100.0;
+  let step;
 
   sliders.selectAll("svg")
     .data(function(d) {
+      console.log(d)
+      if (d == 'pct25_earn_wne_p10') {
+        step = 500;
+      } else {
+        step = 0.01;
+      }
       let thisSlider = d3.select(this);
       let obj = {};
       obj.metric = d;
       [obj.min, obj.max] = d3.extent(schools, function(s){
         return s[d];
       });
+      obj.max = (Math.floor(obj.max/step) + 1) * step;
       let delta = (obj.max - obj.min) / 10.;
       let tickValues = d3.range(obj.min, obj.max + delta, delta);
       obj.slider = d3.sliderHorizontal()
         .min(obj.min)
         .max(obj.max)
-        .step((obj.max-obj.min)/steps)
+        .step(step)
         .width(290)
         .tickValues(tickValues)
         .tickFormat(function(t, i){
