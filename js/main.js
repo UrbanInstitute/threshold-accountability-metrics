@@ -1,4 +1,4 @@
-const isMobile = $(window).width() < 770;
+const isMobile = $(window).width() < 970;
 
 let offsetWidth, widthChart;
 
@@ -72,7 +72,7 @@ let width = widthChart - margin.left - margin.right,
     height = 550 - margin.top - margin.bottom;
 
 let barWidth = isMobile ? 80 : 120,
-    svgWidth = isMobile ? 320 : 400,
+    svgWidth = isMobile ? 320 : 350,
     svgHeight = 20;
 
 let xScale = d3.scaleLinear()

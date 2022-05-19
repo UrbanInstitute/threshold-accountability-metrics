@@ -308,7 +308,7 @@ g.slider path {
 
 .pass-name {
   vertical-align: top;
-  width: 90px;
+  width: 100px;
 
   font-family: 'Lato';
   font-style: normal;
@@ -331,7 +331,7 @@ g.slider path {
 
 .institution-level-name {
   vertical-align: top;
-  width: 150px;
+  width: 130px;
 
   font-style: normal;
   font-weight: 400;
@@ -390,7 +390,7 @@ g.slider path {
   cursor: pointer;
 }
 
-@media (min-width: 770px) {
+@media (min-width: 970px) {
   #left-col {
     position: -webkit-sticky;
     position: sticky;
@@ -404,7 +404,7 @@ g.slider path {
   }
 }
 
-@media (max-width: 770px) {
+@media (max-width: 970px) {
   #interactive {
     border: 0;
     padding-top: 0;
