@@ -5,12 +5,12 @@ let offsetWidth, widthChart;
 const metrics = ['cdr3_wgtd', 'share_outstanding_ug_5', 'completion_rate_150', 'pct25_earn_wne_p10'];
 const schoolTypes = ['Public', 'Nonprofit', 'For-profit'];
 const levels = ['4-year', '2-year', 'less-than-2-year'];
-const buttons = ['students', 'institutions'];
+const buttons = ['institutions', 'students'];
 
 let state = {
   filters: ['Public', 'Nonprofit', 'For-profit'],
   metrics: ['cdr3_wgtd', 'share_outstanding_ug_5', 'completion_rate_150', 'pct25_earn_wne_p10'],
-  button: 'students',
+  button: 'institutions',
   showingSliders: false
 }
 
