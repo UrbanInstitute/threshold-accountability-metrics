@@ -682,9 +682,9 @@ Promise.all([
       return [obj]
     })
     .join('svg')
-      .attr("viewBox", [-20, -20, 340, 60])
+      .attr("viewBox", [-20, -20, 340, 50])
       .attr("width", "93%")
-      .attr("height", 60)
+      .attr("height", 50)
       .each(function(d,i,j) {
         d3.select(j[0]).call(d.slider);
         let leftOffset = d3.select(j[0]).select(".parameter-value").node().transform.baseVal.getItem(0).matrix.e;
@@ -697,7 +697,12 @@ Promise.all([
         }
         d3.select(j[0]).selectAll(".tick").selectAll("line")
           .attr("y2", 11)
-          .attr("stroke", "#D2D2D2")
+          .attr("stroke", "#D2D2D2");
+        d3.select(j[0]).selectAll(".axis")
+          .attr("transform", "translate(0,-5)");
+        d3.select(j[0]).selectAll(".slider")
+          .attr("transform", "translate(0,-5)")
+
       });
 
   d3.select("#sliders-default")

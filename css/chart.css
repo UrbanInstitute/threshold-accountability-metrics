@@ -70,7 +70,7 @@ body {
 }
 
 .slider {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
 .slider-name {
@@ -248,7 +248,7 @@ g.slider path {
   font-size: 18px;
   line-height: 27px;
 
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .filter {
