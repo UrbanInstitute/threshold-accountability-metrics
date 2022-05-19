@@ -401,9 +401,21 @@ g.slider path {
 
 @media (min-width: 970px) {
   #left-col {
+    height: 100vh;
     position: -webkit-sticky;
     position: sticky;
     top: 0;
+  }
+
+  #right-col {
+    height: 100vh;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  #right-col::-webkit-scrollbar {
+    display: none;
   }
 
   .institution-level-legend {
@@ -417,6 +429,7 @@ g.slider path {
   #interactive {
     border: 0;
     padding-top: 0;
+    overflow-y: scroll;
   }
 
   #show-sliders {
@@ -456,13 +469,13 @@ g.slider path {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
   }
 
-  #show-sliders, #buttons, #description, #sliders, #filters, .institution-level-legend {
+  #show-sliders, #buttons, #description, #sliders, #filters, .institution-level-legend, #reset {
     margin-left: 16px;
     margin-right: 16px;
   }
 
   #buttons {
-    width: calc(100% - 32px);
+    width: calc(98% - 32px);
   }
 
   .institution-level-name {
@@ -472,7 +485,7 @@ g.slider path {
   #right-col {
     border-left: 0;
     padding: 0;
-    width: 100%;
+    width: 99%;
   }
 
   .pass-div {
