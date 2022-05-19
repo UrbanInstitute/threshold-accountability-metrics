@@ -308,9 +308,9 @@ Promise.all([
       })
 
     text.html(function(d){
-        let nLabel = d.n > 99999 ?  d3.format(",.3s")(d.n) : d3.format(",")(d.n);
-        let totalLabel = totals[d.subset] > 99999 ?  d3.format(",.3s")(totals[d.subset]) : d3.format(",")(totals[d.subset]);
-        return '<tspan class="primary-metric">' + (d.n / totals[d.subset] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + nLabel + '/' + totalLabel + ' ' + state.button + ')</tspan>';
+        let nLabel = d.n > 999999 ? d3.format(",.1s")(d.n) : d.n > 9999 ? d3.format(".2s")(d.n) : d3.format(",.2r")(d.n);
+        let totalLabel = totals[d.subset] > 999999 ?  d3.format(",.1s")(totals[d.subset]) : totals[d.subset] > 9999 ? d3.format(".2s")(totals[d.subset]) : d3.format(",.2r")(totals[d.subset]);
+        return '<tspan class="primary-metric">' + (d.n / totals[d.subset] * 100).toFixed(0) + '%</tspan> <tspan class="secondary-metric">(' + nLabel + '/' + totalLabel + ' ' + state.button + ')</tspan>';
       })
       .transition().duration(transitionTime)
       .attr("x", function(d){
@@ -320,9 +320,9 @@ Promise.all([
 
     text.enter().append("text")
       .html(function(d){
-        let nLabel = d.n > 99999 ?  d3.format(",.3s")(d.n) : d3.format(",")(d.n);
-        let totalLabel = totals[d.subset] > 99999 ?  d3.format(",.3s")(totals[d.subset]) : d3.format(",")(totals[d.subset]);
-        return '<tspan class="primary-metric">' + (d.n / totals[d.subset] * 100).toFixed(1) + '%</tspan> <tspan class="secondary-metric">(' + nLabel + '/' + totalLabel + ' ' + state.button + ')</tspan>';
+        let nLabel = d.n > 999999 ? d3.format(",.1s")(d.n) : d.n > 9999 ? d3.format(".2s")(d.n) : d3.format(",.2r")(d.n);
+        let totalLabel = totals[d.subset] > 999999 ?  d3.format(",.1s")(totals[d.subset]) : totals[d.subset] > 9999 ? d3.format(".2s")(totals[d.subset]) : d3.format(",.2r")(totals[d.subset]);
+        return '<tspan class="primary-metric">' + (d.n / totals[d.subset] * 100).toFixed(0) + '%</tspan> <tspan class="secondary-metric">(' + nLabel + '/' + totalLabel + ' ' + state.button + ')</tspan>';
       })
       .attr("x", function(d){
         return xScale(d.n / totals[d.subset] * 100) + xOffset;
