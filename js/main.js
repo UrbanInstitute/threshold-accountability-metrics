@@ -700,6 +700,36 @@ Promise.all([
           .attr("stroke", "#D2D2D2")
       });
 
+  d3.select("#sliders-default")
+    .on("click", function(d){
+      sliders.selectAll("svg")
+        .each(function(s,i,j){
+          state.metrics = metrics;
+          sliders.selectAll(".slider-name")
+            .select("input")
+            .property("checked", function(d){
+              return state.metrics.indexOf(d) >= 0;
+            });
+
+          thresholds[s.metric] = defaultMetric[s.metric];
+          s.slider.value(thresholds[s.metric]);
+          d3.select(j[0]).call(s.slider);
+
+          let thisSlider = d3.select(this);
+          let leftOffset = thisSlider.select(".parameter-value").node().transform.baseVal.getItem(0).matrix.e;
+          if (passMetric[s.metric] === 'below') {
+            thisSlider.select(".track-inset")
+              .attr("x1", leftOffset);
+          } else {
+            thisSlider.select(".track-inset")
+              .attr("x2", leftOffset);
+          }
+
+          updateRects();
+          updateSliders();
+        })
+    })
+
   // ADD FILTERS
 
   const filters = d3.select("#filters-buttons").selectAll("span")
