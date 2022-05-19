@@ -587,7 +587,6 @@ Promise.all([
       });
       let delta = (obj.max - obj.min) / 10.;
       let tickValues = d3.range(obj.min, obj.max + delta, delta);
-      thresholds[d] = obj.min; // INITIALIZE THRESHOLDS
       obj.slider = d3.sliderHorizontal()
         .min(obj.min)
         .max(obj.max)
@@ -637,6 +636,7 @@ Promise.all([
         });
 
       obj.slider.default(defaultMetric[d])
+      thresholds[d] = defaultMetric[d];
       return [obj]
     })
     .join('svg')
