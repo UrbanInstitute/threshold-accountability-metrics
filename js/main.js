@@ -699,14 +699,15 @@ Promise.all([
           .attr("y2", 11)
           .attr("stroke", "#D2D2D2");
         d3.select(j[0]).selectAll(".axis")
-          .attr("transform", "translate(0,-5)");
+          .attr("transform", "translate(0,2)");
         d3.select(j[0]).selectAll(".slider")
-          .attr("transform", "translate(0,-5)")
+          .attr("transform", "translate(0,-5)");
 
       });
 
-  d3.select("#sliders-default")
+  d3.select("#reset")
     .on("click", function(d){
+      // RESET FILTERS
       sliders.selectAll("svg")
         .each(function(s,i,j){
           state.metrics = metrics;
@@ -720,6 +721,11 @@ Promise.all([
           s.slider.value(thresholds[s.metric]);
           d3.select(j[0]).call(s.slider);
 
+          d3.select(j[0]).selectAll(".axis")
+            .attr("transform", "translate(0,2)");
+          d3.select(j[0]).selectAll(".slider")
+            .attr("transform", "translate(0,-5)");
+
           let thisSlider = d3.select(this);
           let leftOffset = thisSlider.select(".parameter-value").node().transform.baseVal.getItem(0).matrix.e;
           if (passMetric[s.metric] === 'below') {
@@ -729,10 +735,15 @@ Promise.all([
             thisSlider.select(".track-inset")
               .attr("x2", leftOffset);
           }
-
-          updateRects();
-          updateSliders();
         })
+
+      // RESET FILTERS
+      state.filters = schoolTypes;
+      d3.select("#filters-buttons").selectAll("span")
+        .classed("selected", true);
+
+      updateRects();
+      updateSliders();
     })
 
   // ADD FILTERS

@@ -168,7 +168,6 @@ input[type=checkbox]:checked:after {
 }
 
 .info p {
-
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -276,6 +275,15 @@ g.slider path {
   border: 1px solid #000000;
   box-sizing: border-box;
   border-radius: 8px;
+}
+
+#reset {
+  margin-top: 20px;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 700;
+  color: #1696d2;
+  cursor: pointer;
 }
 
 #left-col {
