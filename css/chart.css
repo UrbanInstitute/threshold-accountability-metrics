@@ -267,6 +267,7 @@ g.slider path {
   margin-right: 8px;
 
   cursor: pointer;
+  display: inline-block;
 }
 
 .filter.selected {

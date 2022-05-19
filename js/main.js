@@ -49,7 +49,7 @@ let defaultMetric = {
 }
 
 let filterLabels = {
-  'Nonprofit': 'Private',
+  'Nonprofit': 'Private non-profit',
   'Public': 'Public',
   'For-profit': 'For profit'
 }
@@ -366,12 +366,12 @@ Promise.all([
       svgLegend = d3.select("#button-description").selectAll(".institution-level-legend").selectAll(".legend-svg")
         .data(state.filters);
 
-      svgLegendWidth = 100;
+      svgLegendWidth = 140;
     } else {
       svgLegend = d3.selectAll(".pass-div").selectAll(".institution-level-legend").selectAll(".legend-svg")
         .data(state.filters);
 
-      svgLegendWidth = 100;
+      svgLegendWidth = 140;
 
       d3.selectAll(".pass-div")
         .selectAll(".institution-div")
