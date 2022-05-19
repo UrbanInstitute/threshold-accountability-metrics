@@ -615,7 +615,6 @@ Promise.all([
 
   sliders.selectAll("svg")
     .data(function(d) {
-      console.log(d)
       if (d == 'pct25_earn_wne_p10') {
         step = 500;
       } else {
