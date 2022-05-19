@@ -308,7 +308,7 @@ g.slider path {
 
 .pass-name {
   vertical-align: top;
-  width: 75px;
+  width: 90px;
 
   font-family: 'Lato';
   font-style: normal;
@@ -414,7 +414,7 @@ g.slider path {
     display: inline-block;
     border-bottom: 1px solid #D2D2D2;
     height: 52px;
-    width: calc(100% - 32px);
+    width: calc(100% - 34px);
 
     background-color: #FFFFFF;
     z-index: 1000;

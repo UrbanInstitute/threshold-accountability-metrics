@@ -165,14 +165,50 @@ Promise.all([
 
     passesName.attr("class", "pass-name")
       .html(function(d){
+        if (d === 0){
+          if (state.metrics.length === 1) {
+            return "Fail";
+          } else if (state.metrics.length === 2) {
+            return "Fail both";
+          } else {
+            return "Fail all";
+          }
+        }
+        if (d === state.metrics.length) {
+          if (state.metrics.length === 1) {
+            return "Pass";
+          } else if (state.metrics.length === 2) {
+            return "Pass both";
+          } else {
+            return "Pass all";
+          }
+        }
         return "Pass " + d;
       })
 
     passesName.enter().append("div")
       .attr("class", "pass-name")
       .html(function(d){
+        if (d === 0){
+          if (state.metrics.length === 1) {
+            return "Fail";
+          } else if (state.metrics.length === 2) {
+            return "Fail both";
+          } else {
+            return "Fail all";
+          }
+        }
+        if (d === state.metrics.length) {
+          if (state.metrics.length === 1) {
+            return "Pass";
+          } else if (state.metrics.length === 2) {
+            return "Pass both";
+          } else {
+            return "Pass all";
+          }
+        }
         return "Pass " + d;
-      });
+      })
 
     passesName.exit().remove();
 
