@@ -157,6 +157,10 @@ function drawBars() {
         })
       })
 
+      d3.select("#right-col").selectAll(".pass-div").remove();
+      // d3.select("#right-col")
+      //   .style("height", window.outerHeight + 'px')
+
       let passesDiv = d3.select("#right-col").selectAll(".pass-div")
         .data(passes)
 
@@ -220,7 +224,6 @@ function drawBars() {
         })
 
       passesName.exit().remove();
-
 
       let institutionsDiv = d3.selectAll(".pass-div").selectAll(".institution-div")
         .data(function(d){
@@ -513,6 +516,7 @@ function drawBars() {
     }
 
     // ADD BUTTONS
+    d3.select("#buttons").selectAll("span").remove();
 
     const buttonsSpan = d3.select("#buttons").selectAll("span")
       .data(buttons)
@@ -548,7 +552,6 @@ function drawBars() {
       .style("padding-right", (buttonsDivWidth - buttonsWidth)/4 + 'px')
 
     // ADD SLIDERS
-
     const sliders = d3.select("#sliders").selectAll("div")
       .data(metrics)
       .join("div")
@@ -756,7 +759,6 @@ function drawBars() {
       })
 
     // ADD FILTERS
-
     const filters = d3.select("#filters-buttons").selectAll("span")
       .data(schoolTypes)
       .join("span")
@@ -820,6 +822,7 @@ function drawBars() {
 
     if(pymChild) {
       pymChild.sendHeight();
+      pymChild.remove();
     }
   })
 }
