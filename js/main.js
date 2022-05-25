@@ -82,7 +82,8 @@ function drawBars() {
 
   let barWidth = isMobile ? 80 : 120,
       svgWidth = isMobile ? 320 : 350,
-      svgHeight = 20;
+      svgHeight = 20,
+      sliderHeight = isMobile ? 55 : 50;
 
   let xScale = d3.scaleLinear()
       .domain([0, 100])
@@ -694,9 +695,9 @@ function drawBars() {
         return [obj]
       })
       .join('svg')
-        .attr("viewBox", [-20, -20, 340, 50])
+        .attr("viewBox", [-20, -20, 340, sliderHeight])
         .attr("width", "93%")
-        .attr("height", 50)
+        .attr("height", sliderHeight)
         .each(function(d,i,j) {
           d3.select(j[0]).call(d.slider);
           let leftOffset = d3.select(j[0]).select(".parameter-value").node().transform.baseVal.getItem(0).matrix.e;
