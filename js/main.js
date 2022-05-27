@@ -31,14 +31,14 @@ function drawBars() {
 
   let metricLabels = {
     'completion_rate_150': 'Completion Rate',
-    'share_outstanding_ug_5': 'Successful Loan Repayment',
+    'share_outstanding_ug_5': 'Remaining Loan Balance',
     'cdr3_wgtd': 'Loan Default Rate',
     'pct25_earn_wne_p10': 'Post-college Earnings'
   }
 
   let tooltipText = {
     'completion_rate_150': 'We define “completion” as students who earn their credential at their first institution within 150 percent of the normal time expected to finish (i.e., three years for associate degrees and six years for bachelor’s degrees). This slider sets the minimum allowable completion rate for an institution.',
-    'share_outstanding_ug_5': 'We measure the share of the dollars students borrowed that have been repaid after five years. This slider sets the maximum allowable share of successful loan repayment after five years for an institution.',
+    'share_outstanding_ug_5': 'We measure the outstanding loan balance after five years relative to the amount students owed when they entered repayment. The slider sets the maximum allowable ratio for an institution after five years.',
     'cdr3_wgtd': 'We measure the share of all students attending the institution who default on their loans within three years—not just the share of borrowers who default. This slider sets the maximum allowable loan default rate for an institution.',
     'pct25_earn_wne_p10': 'We measure whether three-quarters of students earn more than a specified threshold. This slider sets the minimum allowable earnings threshold for an institution.'
   }
