@@ -33,7 +33,7 @@ function drawBars() {
     'completion_rate_150': 'Completion Rate',
     'share_outstanding_ug_5': 'Remaining Loan Balance',
     'cdr3_wgtd': 'Loan Default Rate',
-    'pct25_earn_wne_p10': 'Post-college Earnings'
+    'pct25_earn_wne_p10': 'Postcollege Earnings'
   }
 
   let tooltipText = {
@@ -58,7 +58,7 @@ function drawBars() {
   }
 
   let filterLabels = {
-    'Nonprofit': 'Private non-profit',
+    'Nonprofit': 'Private nonprofit',
     'Public': 'Public',
     'For-profit': 'For profit'
   }
