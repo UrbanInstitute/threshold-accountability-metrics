@@ -822,10 +822,14 @@ function drawBars() {
     updateRects();
 
     if(pymChild) {
-      pymChild.sendHeight();
-      pymChild.remove();
+      setTimeout(() => {
+        pymChild.sendHeight();
+        pymChild.remove();
+      }, "2000")
     }
   })
 }
 
-window.onload = onWindowLoaded;
+window.onload = setTimeout(() => {
+  onWindowLoaded();
+}, "2000");
